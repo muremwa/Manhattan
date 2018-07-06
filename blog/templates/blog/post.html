@@ -1,0 +1,135 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ post.name }} by {{ post.author }}{% endblock title %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'blog/style/post.css' %}">
+{% endblock style %}
+
+{% block blog %}active{% endblock blog %}
+
+
+{% block content %}
+<div id="main" class="container-fluid">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="container col-md-8 text-center">
+                <h6>By <a href="#">{{ post.author }}</a></h6>
+                <h1>{{ post.name }}</h1>
+                <h6 class="text-info">Dated {{ post.date }}</h6>
+            </div>
+            <hr>
+            <div class="container col-md-11 text-justify">
+                <div class="col-sm-6" id="main-image">
+                    <img class="img-fluid" src="{{ post.image.url }}" alt="main image of {{ post.name }}">
+                    <!-- <figcaption>Caption name</figcaption> -->
+                </div>
+                <hr>
+                <p>{{ post.lead_text }}</p>
+                <div>
+                    {% for entry in entries %}
+                        <div class="section">
+                            <hr>
+                            {% if entry.title %}
+                                <h5>{{ entry.title }}</h5>
+                            {% endif %}
+                            {% if entry.image %}
+                                <img class="img-thumbnail section-image" alt="image for {{entry.title}}" src="{{ entry.image.url }}">
+                            {% endif %}
+                            <p>{{ entry.content }}</p>        
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+            <p>Tags
+                <ul id="top-tags" class="container row">
+                    {% for tag in tags %}
+                        <a href="#" class="col-sm-2 btn btn-outline-info" style="margin-left: 5px;">{{ tag.name }}</a>           
+                    {% endfor %}             
+                </ul>
+            </p>
+            <hr>
+
+           
+            {% block post_comments %}
+                <!-- Blog Comments -->
+                <div id="comments" class="container col-md-10 alert-light">
+                    <h4>Comments <small class="text-danger"><i>trolling comments will be deleted!</i></small></h4>
+                    <!-- Comment entry -->
+                    <form class="form-inline" style="padding-bottom: 10px;">
+                        <div class="form-group col-sm-10">
+                            <input class="form-control" placeholder="add comment for this post" type="text" style="width: 100%;">
+                        </div>
+                        <input class="btn btn-success col-sm-2" value="Comment" type="submit">
+                    </form>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="row comment">
+                                <div id="user-img" class="col-sm-1">
+                                    <img src="{{ comment.user.image.url }}" alt="image of {{ comment.user.user }}">
+                                </div>
+                                <div class="col-sm-11">
+                                    <span><strong>{{ comment.user.user }}</strong> posted <strong>{{ comment.time }}</strong></span>
+                                    <p>{{ comment.comment }}</p>
+                                </div>
+                            </div>
+                        
+                            <hr>
+                        {% endfor %}
+                    {% else %}
+                        <div style="padding-bottom: 10px;" class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <h4>No comments on this post</h4>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endblock post_comments %}
+        </div>
+        <div id="side-bar" class="col-md-3">
+            <div id="author" class="card">
+                <div class="card-header">
+                    <span>The author of this post</span>
+                </div>
+                <div class="card-body">
+                    <img src="{{ post.author.image.url }}" id="author-image" class="card-img-top" alt="{{ post.author }}'s image">
+                    <span><a href="#">{{ post.author }}</a></span>
+                    <p class="text-justify">{{ post.author.bio}}</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-link" href="#">More on the author</a>
+                </div>
+            </div>
+
+            {% if others.count > 1 %}
+                <div id="more-posts" class="card">
+                    <div class="card-header">
+                        <span class="text-dark">More posts similar to this one</span>
+                        <span class="text-dark"><a href="#">{{ relation }}</a></span>
+                    </div>
+
+                    <div id="more-posts-body" class="card-body">
+                        <ul>
+                            {% for other_post in others %}
+                                {% if post != other_post %}
+                                    <li class="card another-post">
+                                        <img class="card-img-top" src="{{ other_post.image.url }}" alt="image for {{ other_post.name }}">
+                                        <span><a href="{{ other_post.get_absolute_url }}">{{ other_post.name }}</a></span>
+                                        <p>By<a href="#"> {{ other_post.author }}</a></p>
+                                        <p>Dated <a href="#">{{ other_post.date }}</a></p>
+                                    </li>
+                                    <hr>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}

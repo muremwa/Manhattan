@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Log In{% endblock title %}
+
+{% block login %}active{% endblock login %}
+
+{% block content %}
+    <style>
+        #main {
+            margin-top: 100px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            padding-bottom: 30px;
+            background-color: blanchedalmond;
+            padding-top: 2em;
+        }
+        
+        #main:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
+        }        
+    </style>
+    <div id="main" class="container col-sm-4" style="margin-top: 6em; margin-bottom: 6.4em;">
+        {% if form.errors %}
+            <p class="text-danger">Your username and password do not match</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p class="text-warning">Your account does not have access to this page</p>
+            {% else %}
+                <p class="text-warning">Please login to see this page</p>
+            {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </div>
+            <div class="form-group">
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Log In</button>
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+        </form>
+        
+        {# assuming you want to reset password #}
+        <p class="text-info"><a href="">Reset password</a></p>
+        <p class="text-info">Don't have an account <a href="{% url 'signup' %}">Sign up</a></p>
+    </div>
+    
+    <script type="text/javascript">
+        input = document.getElementsByTagName("input");
+
+        for(i in input){
+            input[i].classList.add("form-control");
+        }
+    </script>
+
+
+{% endblock content %}

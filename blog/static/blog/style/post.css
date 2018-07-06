@@ -1,0 +1,111 @@
+body {
+    background-color: blanchedalmond;
+}
+
+footer {
+    background-color: rgb(47, 59, 70);
+    padding: 1em;
+    margin-top: 4em;
+    width: 100%;
+}
+
+footer p, footer span{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: aqua;
+}
+
+#navbar {
+    overflow: visible;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    opacity: 0.89;
+}
+
+#main {
+    margin-top: 5em;
+}
+
+#author-image {
+    border-radius: 10px;
+}
+
+h1 {
+    letter-spacing: 8px;
+    color: navy;
+}
+
+h5 {
+    color: darkblue;
+}
+
+#main-image {
+    border: 1px solid blueviolet;
+    border-radius: 10px;
+    margin: auto;
+    margin-bottom: 1em;
+}
+
+#more-posts ul {
+    list-style-type: none;
+}
+
+#more-posts {
+    margin-top: 7em;
+}
+
+#more-posts-body {
+    padding-left: 0;
+}
+
+#side-bar {
+    margin-top: 6em;
+}
+
+#top-tags {
+    list-style-type: none;
+}
+
+.section {
+    margin-top: 2em;
+}
+
+.section-image {
+    max-height: 10em;
+}
+
+.comment {
+    margin: 2em;
+}
+
+
+#user-img img {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+}
+
+#user-img {
+    padding-left: 0;
+}
+
+.another-post {
+    margin-top: 2em;
+}
+
+#comments {
+    margin-top: 3em;
+}
+
+@media screen and ( max-width: 1077px){
+    html {
+        font-size: 16px;
+    }
+}
+
+@media screen and ( max-width: 750px){
+    #main-image {
+        width: 100%;
+    }
+}

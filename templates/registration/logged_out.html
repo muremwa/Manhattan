@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Log out{% endblock title %}
+
+{% block content %}
+    <style>
+        #main {
+            margin-top: 7em;
+            margin-bottom: 10em;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            padding-bottom: 30px;
+            background-color: blanchedalmond;
+            padding-top: 2em;
+        }
+        
+        #main:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
+        }        
+    </style>
+    <div id="main" class="container col-md-6 text-center">
+        <h5 class="text-info">Log out successfull!!!</h5>
+        <h4 class="text-danger">Please login back in to improve your experience</h4>
+
+        <a class="btn btn-link" href="{% url 'login' %}">Log in</a><br />
+        <a class="btn btn-link" href="{% url 'signup' %}">Don't have an account, Sign up!</a>
+    </div>
+
+{% endblock content %}

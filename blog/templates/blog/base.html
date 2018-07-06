@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock title %} - muremwa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'blog/style/jquery-ui.css' %}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'blog/style/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'blog/style/base.css' %}"/>
+    {% block style %}{% endblock style %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}" />
+</head>
+<body>
+
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Muremwa.com</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link {% block home %}{% endblock home %}" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% block blog %}{% endblock blog %}" href="{% url 'index' %}">Blog</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Learn
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Python</a>
+                      <a class="dropdown-item" href="#">JavaScript</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Conduct</a>
+                    </div>
+                </li>
+            
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Profile
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <span class="dropdown-item">Logged in as <i style="color:darkblue;">{{ user }}</i></span>
+                          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                          {% if user.is_staff %}
+                            <a class="dropdown-item" target="_blank" href="http://127.0.0.1:8000/admin/">Admin page</a>
+                          {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% block login %}{% endblock login %}" href="{% url 'login' %}">Login</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% block signup %}{% endblock signup %}" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            
+                
+              </ul>
+            </div>
+        </nav>
+
+        {% block content %}
+          
+        {% endblock content %}
+        {% block pagination %}
+	        {% if is_paginated %}
+		        <div class="pagination">
+			        {% if page_obj.has_previous %}
+				        <span>
+					        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Previous</a>
+				        </span>
+			        {% endif %}
+			        <span class="current page"> page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+			        {% if page_obj.has_next %}
+				        <span>
+					        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a>
+				        </span>
+			        {% endif %}
+		        </div>
+	        {% endif %}
+        {% endblock pagination %}
+        
+
+
+
+        <footer class="row">
+            <div class="col-md-4">
+                <ul>
+                    <li class="btn btn-link">Home</li>
+                    <li class="btn btn-link">Blog</li>
+                    <li class="btn btn-link">Privacy Policy</li>
+                    <li class="btn btn-link">Contact us</li>
+                    <li class="btn btn-link">Developers</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <p class="text-justify">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque ratione quis veniam amet odio dolores reprehenderit. At blanditiis dicta vero! Corrupti eaque.
+                </p>
+            </div>
+            <div class="col-md-4">
+                    <ul>
+                        <li class="btn btn-link">Python</li>
+                        <li class="btn btn-link">C++</li>
+                        <li class="btn btn-link">JavaScript</li>
+                        <li class="btn btn-link">SQL</li>
+                        <li class="btn btn-link">Conduct</li>
+                    </ul>
+                    <span class="text-center">&copy 1999-2018</span>
+                </div>
+         </footer>
+ 
+         <script src="{% static 'blog/scripts/jquery.js' %}"></script>
+         <script src="{% static 'blog/scripts/jquery-ui.js' %}"></script>
+         <script src="{% static 'blog/scripts/bootstrap.min.js' %}"></script>
+         <script src="{% static 'blog/scripts/blog.js' %}"></script>
+ </body>
+ </html>

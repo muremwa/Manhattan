@@ -1,0 +1,71 @@
+#main {
+    margin-top: 4em;
+    width: 100%;
+}
+
+#header {
+    text-align: center;
+    border: 0.6px solid cornflowerblue;
+    border-radius: 10px;
+    margin-bottom: 2em;
+}
+
+.card   {
+    /* border-color: green; */
+    margin: 2em;
+    width: 100px;
+}
+
+
+#others {
+    margin-top: 10em;
+}
+
+
+#others ul {
+    padding-left: 0;
+}
+
+.post {
+    border: 1px solid blue;
+    border-radius: 10px;
+    margin-bottom: 2em;
+}
+
+
+.blog-foot ul{
+    list-style-type: none;
+    float: right;
+}
+
+.blog-info {
+    padding-right: 0;
+}
+
+#dated {
+    text-transform: initial;
+}
+
+
+@media screen and ( max-width: 1077px){
+    html {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 850px){
+    #others {
+        width: 80%;
+        margin: auto;
+        margin-bottom: 2em;
+        margin-top: 2em;
+    }
+    .post {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 1em;
+    }
+    .tags {
+        display: none;
+    }
+}
