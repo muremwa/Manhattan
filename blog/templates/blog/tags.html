@@ -1,0 +1,37 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Tags{% endblock title %}
+
+{% block style %}<link type="text/css" rel="stylesheet" media="screen" href="{% static 'blog/style/tags.css' %}"/> {% endblock style %}}
+
+
+{% block content %}
+    <div id="main">
+        <div id="head" class="container col-md-5 text-center">
+            <h1>Tags</h1>
+            <p class="lead">Explore major tags for blog posts</p>
+        </div>
+        {% for tag in tags %}
+            {% if tag.post_set.all %}
+                <div class="container tag-section">
+                    <h4>{{ tag.name }}</h4>
+                    <hr>
+                    <div class="container row tag-sec" id="{{ tag.name }}">
+                        {% for post in tag.post_set.all|slice:":4" %}
+                            <div class="col-sm-3 tag-post" id="{{ post.name }}">
+                                <img src="{{ post.image.url }}" alt="image for {{ post.name }}" class="card-img post-image">
+                                <a href="{{ post.get_absolute_url }}">{{ post.name }}</a> <span class="text-dark">by</span>
+                                <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <a class="more" href="{{ tag.get_absolute_url }}">More on {{ tag.name }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock content %}
+
+{% block script %}<script src="{% static 'blog/scripts/tags.js' %}"></script>{% endblock script %}

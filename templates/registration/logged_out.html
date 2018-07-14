@@ -19,12 +19,19 @@
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
         }        
     </style>
-    <div id="main" class="container col-md-6 text-center">
-        <h5 class="text-info">Log out successfull!!!</h5>
+    <div id="main" class="container col-md-6 text-center" onmouseover="sad();" >
+        <h3 id="sad" style="display: none;" class="text-info">Sad to see you go 😪</h3>
         <h4 class="text-danger">Please login back in to improve your experience</h4>
 
         <a class="btn btn-link" href="{% url 'login' %}">Log in</a><br />
         <a class="btn btn-link" href="{% url 'signup' %}">Don't have an account, Sign up!</a>
     </div>
+    <script type="text/javascript">
+        function sad(){
+            $(function(){
+                $("#sad").slideDown(600);
+            });
+        };
+    </script>
 
 {% endblock content %}

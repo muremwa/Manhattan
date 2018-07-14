@@ -28,6 +28,7 @@
                 <li class="nav-item">
                   <a class="nav-link {% block blog %}{% endblock blog %}" href="{% url 'index' %}">Blog</a>
                 </li>
+                
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Learn
@@ -39,38 +40,42 @@
                       <a class="dropdown-item" href="#">Conduct</a>
                     </div>
                 </li>
-            
-                {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Profile
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <span class="dropdown-item">Logged in as <i style="color:darkblue;">{{ user }}</i></span>
-                          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                          {% if user.is_staff %}
-                            <a class="dropdown-item" target="_blank" href="http://127.0.0.1:8000/admin/">Admin page</a>
-                          {% endif %}
-                        </div>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link {% block login %}{% endblock login %}" href="{% url 'login' %}">Login</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link {% block signup %}{% endblock signup %}" href="{% url 'signup' %}">Sign Up</a>
-                    </li>
-                {% endif %}
-            
-                
+
+                <div>
+                    {% block search %}{% endblock search %}
+                </div>
+                <div> 
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Profile
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <span class="dropdown-item">Logged in as <i style="color:darkblue;">{{ user }}</i></span>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                            {% if user.is_staff %}
+                                <a class="dropdown-item" target="_blank" href="http://127.0.0.1:8000/admin/">Admin page</a>
+                            {% endif %}
+                            </div>
+                        </li>
+                    {% else %}
+                        <li style="float: right; margin-left: 1em;" class="nav-item">
+                            <a class="nav-link {% block login %}{% endblock login %}" href="{% url 'login' %}">Login</a>
+                        </li>
+                        
+                        <li style="float: right;" class="nav-item">
+                            <a class="nav-link {% block signup %}{% endblock signup %}" href="{% url 'signup' %}">Sign Up</a>
+                        </li>
+                    {% endif %}    
+                </div>
               </ul>
             </div>
         </nav>
-
-        {% block content %}
+        <div class="container-fluid">
+            {% block content %}
           
-        {% endblock content %}
+            {% endblock content %}
+        </div>
         {% block pagination %}
 	        {% if is_paginated %}
 		        <div class="pagination">
@@ -92,14 +97,14 @@
 
 
 
-        <footer class="row">
+        <footer class="row container-fluid">
             <div class="col-md-4">
                 <ul>
-                    <li class="btn btn-link">Home</li>
-                    <li class="btn btn-link">Blog</li>
-                    <li class="btn btn-link">Privacy Policy</li>
-                    <li class="btn btn-link">Contact us</li>
-                    <li class="btn btn-link">Developers</li>
+                    <li class="btn btn-link"><a href="#">Home</a></li>
+                    <li class="btn btn-link"><a href="{% url 'index' %}">Blog</a></li>
+                    <li class="btn btn-link"><a href="#">Privacy Policy</a></li>
+                    <li class="btn btn-link"><a href="#">Contact us</a></li>
+                    <li class="btn btn-link"><a href="#">Developers</a></li>
                 </ul>
             </div>
             <div class="col-md-4">
@@ -115,13 +120,14 @@
                         <li class="btn btn-link">SQL</li>
                         <li class="btn btn-link">Conduct</li>
                     </ul>
-                    <span class="text-center">&copy 1999-2018</span>
+                    <span class="text-center">&copy 1999-<span id="this-year"></span>
                 </div>
          </footer>
  
          <script src="{% static 'blog/scripts/jquery.js' %}"></script>
          <script src="{% static 'blog/scripts/jquery-ui.js' %}"></script>
+         <script src="{% static 'blog/scripts/base.js' %}"></script>
+         {% block script %}{% endblock script %}
          <script src="{% static 'blog/scripts/bootstrap.min.js' %}"></script>
-         <script src="{% static 'blog/scripts/blog.js' %}"></script>
  </body>
  </html>

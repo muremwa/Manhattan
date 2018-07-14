@@ -23,7 +23,7 @@ class Profile(models.Model):
 
     # get to individual person
     def get_absolute_url(self):
-        return reverse('user-detail', args=[str(self.id)])
+        return reverse('user', args=[str(self.id)])
 
     def __str__(self):
         return self.writer_name
@@ -38,13 +38,13 @@ class Tag(models.Model):
 
     # get to individual tag
     def get_absolute_url(self):
-        return reverse("tag-detail", args=[str(self.id)])
+        return reverse("tag-detail", args=[str(self.name)])
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
 
 
 # Blog post model

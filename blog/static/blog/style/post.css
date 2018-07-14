@@ -14,14 +14,6 @@ footer p, footer span{
     color: aqua;
 }
 
-#navbar {
-    overflow: visible;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 2;
-    opacity: 0.89;
-}
 
 #main {
     margin-top: 5em;

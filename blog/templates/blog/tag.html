@@ -1,0 +1,59 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block style %}<link type="text/css" rel="stylesheet" media="screen" href="{% static 'blog/style/tag.css' %}"/> {% endblock style %}}
+
+{% block title %}{{ tag.name }}{% endblock title %}
+
+{% block content %}
+    <div id="main">
+        <h1>{{ tag.name }}</h1>       
+        <hr>
+        <div class="container-fluid row" id="top">
+            <div class="col-md-3">
+                <img id="main-image" class="card-img-bottom" alt="image for {{ tag.name }}" src="{{ tag.image.url }}">
+            </div>
+            <div id="tag-des" class="col-md-9 text-center">
+                <p class="lead">{{ tag.description }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <h5 class="lead">Related tags</h5>
+            <div class="row">
+                {% if rel_tags %}
+                    {% for rel_tag in rel_tags %}
+                        <a href="{{ rel_tag.get_absolute_url }}" class="rel-tag-button btn btn-outline-dark">{{ rel_tag.name }}</a>
+                    {% endfor %}
+                {% else %}
+                    <div style="display: none;" class="container text-center error">
+                        <h6>{{ tag.name }} has no related tags</h6>
+                        <h3>😢</h3>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <h4 class="lead">Posts tagged {{ tag.name }}</h4>
+            <div class="row">
+                {% if posts %}
+                    {% for post in posts %}
+                    <div class="col-sm-3 tag-post" id="{{ post.name }}">
+                        <img src="{{ post.image.url }}" alt="image for {{ post.name }}" class="card-img post-image">
+                        <a href="{{ post.get_absolute_url }}">{{ post.name }}</a> <span class="text-dark">by</span>
+                        <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="display: none;" class="container text-center error">
+                        <h6>No posts related with {{ tag.name }}</h6>
+                        <h3>😕</h3>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}<script src="{% static 'blog/scripts/tag.js' %}"></script> {% endblock script %}

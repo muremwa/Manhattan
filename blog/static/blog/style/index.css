@@ -18,7 +18,7 @@
 
 
 #others {
-    margin-top: 10em;
+    margin-top: 3em;
 }
 
 
@@ -46,6 +46,24 @@
     text-transform: initial;
 }
 
+.result-post {
+    /* height: 4.3em; */
+    margin-bottom: 1em;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.34s;
+}
+
+.result-post:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
+}
+
+#no {
+    font-family: calibri;
+}
+
+#no a {
+    margin: 10px;
+}
 
 @media screen and ( max-width: 1077px){
     html {

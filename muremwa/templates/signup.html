@@ -3,8 +3,6 @@
 
 {% block title %}Sign up{% endblock %}
 
-{% block signup %}active{% endblock signup %}
-
 {% block content %}
 <style>
         #main {
@@ -60,7 +58,11 @@
                       {% endfor %}
                   </div>
                 {% endfor %}
-                <button class="btn btn-success" type="submit">Sign up</button>
+                <div id="acceptdiv">
+                    <span class="text-danger">By signing in you are accepting our <a href="#">terms and conditions</a></span>
+                    <button class="btn btn-outline-danger" onclick="accept()">Accept</button>
+                </div>
+                <button style="display: none;" id="signup" class="btn btn-success" type="submit">Sign up</button>
             </form>
             <script type="text/javascript">
                 inputs = document.getElementsByTagName("input");
@@ -90,8 +92,20 @@
                     });   
                     document.getElementById("normal").style.display = "none";
                 }
+                $(function(){
+                    $("#main").tooltip();
+                });
 
-                $("#main").tooltip();
+                function accept(){
+                    $(function(){
+                        $("#acceptdiv").hide(500);
+                        $("#signup").show(100);
+                    });
+                    
+                }
+                
+
+                
                
             </script>
         </div>

@@ -1,0 +1,73 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ author.writer_name }}{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" media="screen" type="text/css" href="{% static 'blog/style/author.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+    <div id="main">
+        <h1 class="container text-info"><small>The writer known as </small>{{ author.writer_name }}</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <img id="author-image" src="{{ author.image.url }}" alt="image of the {{ author.writer_name }}" class="img-fluid"/>
+            </div>
+            <div style="border-left: 1px solid rgba(11, 29, 49, 0.336);" class="col-md-4">
+                <div id="fullname">
+                    <h5 class="text-primary">Full name</h5>
+                    <span class="text-success">{{ author.user.first_name }} {{ author.user.last_name }}</span>
+                </div>
+                <hr>
+                <div id="bio">
+                    <h5 class="text-primary">Bio</h5>
+                    <p class="text-success">{{ author.bio }}</p>
+                </div>
+                <hr>
+                <div id="date-joined">
+                    <h5 class="text-primary">Date joined</h5>
+                    <span class="text-success">{{ author.user.date_joined }}</span>
+                </div>
+
+            </div>
+            <div style="border-left: 1px solid rgba(11, 29, 49, 0.336)" class="col-md-4">
+                {% if posts %}
+                    <div id="more-posts" class="card">
+                        <div class="card-header">
+                            <span class="text-dark">Posts by {{ author.writer_name }}</span>
+                        </div>
+                        {% for post in posts %}
+                            <div id="more-posts-body" class="card-body">
+                                <ul>        
+                                    <li class="card another-post">
+                                        <img class="card-img-top" src="{{ post.image.url }}" alt="image for {{ post.name }}">
+                                            <span><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></span>
+                                            <p>Posted <a class="dated" href="#">{{ post.date }}</a></p>
+                                        </li>
+                                </ul>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                    
+                {% else %}
+                    <div onmouseover="sadFace();" class="container" id="none">
+                        <h3 class="lead text-danger">{{ author.writer_name }} has no posts yet <span id="face">😕</span><span style="display: none;" id="face2">😣</span></h3>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function sadFace(){
+            $(function(){
+                $("#face").fadeToggle(200);
+            });
+        };
+    </script>
+
+
+{% endblock content %}
