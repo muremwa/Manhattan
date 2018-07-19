@@ -1,22 +1,16 @@
-from django.db.transaction import commit
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Post, Tag, Profile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-# from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from .forms import CommentForm
-
+from django.db.models import Q
 
 # all blogs
 def index(request):
     posts = Post.objects.all()
     the_query = request.GET.get("query")
-
-    if the_query:
-        posts = Post.objects.filter(name__contains=the_query)
-
     tags = Tag.objects.all()
     page = request.GET.get('page', 1)
     paginator = Paginator(posts, 4)
@@ -36,7 +30,7 @@ def index(request):
 
 
 # each blog post
-# @login_required
+@login_required
 def post(request, id):
     post = get_object_or_404(Post, pk=id)
     tags = post.tags.all()
@@ -53,6 +47,20 @@ def post(request, id):
     # comments
     comments = post.comment_set.all()
 
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = request.user.profile
+            comment.save()
+
+            return HttpResponseRedirect(reverse('post', args=(id,)))
+
+    else:
+        form = CommentForm()
+
     return render(request, 'blog/post.html', {
         'post':post,
         'entries':entries,
@@ -60,12 +68,13 @@ def post(request, id):
         'tags':tags,
         'relation':tag,
         'comments':comments,
+        'form':form,
     })
 
 
 # for author
 def author(request, id):
-    the_author = Profile.objects.get(pk=id)
+    the_author = get_object_or_404(Profile, pk=id)
     posts = the_author.post_set.all()
 
     return render(request, 'blog/author.html', {
@@ -85,7 +94,7 @@ def tags(request):
 
 # each tag
 def tag(request, tag_name):
-    the_tag = Tag.objects.get(name=tag_name)
+    the_tag = get_object_or_404(Tag, name=tag_name)
     posts = the_tag.post_set.all()
 
     # related tags
@@ -105,6 +114,21 @@ def tag(request, tag_name):
     })
 
 
-# comments
-def comment(request):
-    return render(request, 'blog/comment.html')
+def search(request):
+    query = request.GET.get("q",)
+
+    if query:
+        qset = (
+            Q(name__contains=query) |
+            Q(author__writer_name__contains=query) |
+            Q(tags__name__contains=query)
+        )
+        results = Post.objects.filter(qset).distinct()
+
+    else:
+        results = []
+
+    return render(request, 'blog/search.html', {
+        'query':query,
+        'results':results,
+    })

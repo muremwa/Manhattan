@@ -20,18 +20,11 @@
         }        
     </style>
     <div id="main" class="container col-md-6 text-center" onmouseover="sad();" >
-        <h3 id="sad" style="display: none;" class="text-info">Sad to see you go 😪</h3>
+        <h3 id="sad" class="text-info">Sad to see you go 😪</h3>
         <h4 class="text-danger">Please login back in to improve your experience</h4>
 
         <a class="btn btn-link" href="{% url 'login' %}">Log in</a><br />
         <a class="btn btn-link" href="{% url 'signup' %}">Don't have an account, Sign up!</a>
     </div>
-    <script type="text/javascript">
-        function sad(){
-            $(function(){
-                $("#sad").slideDown(600);
-            });
-        };
-    </script>
 
 {% endblock content %}

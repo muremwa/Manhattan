@@ -23,6 +23,13 @@
                                 <img src="{{ post.image.url }}" alt="image for {{ post.name }}" class="card-img post-image">
                                 <a href="{{ post.get_absolute_url }}">{{ post.name }}</a> <span class="text-dark">by</span>
                                 <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a>
+                                <br />
+                                {% if post.comment_set.all.count %}
+                                    <span class="col-sm-4 comment-count">
+                                        {{ post.comment_set.all.count }}
+                                        <span>&#xe200;</span>
+                                    </span>
+                                {% endif %}
                             </div>
                         {% endfor %}
                     </div>

@@ -40,10 +40,9 @@
                       <a class="dropdown-item" href="#">Conduct</a>
                     </div>
                 </li>
-
-                <div>
-                    {% block search %}{% endblock search %}
-                </div>
+                <li class="nav-item">
+                    <a class="nav-link {% block search %}{% endblock search %}" href="{% url 'search' %}">Search</a>
+                </li>                
                 <div> 
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
@@ -97,7 +96,7 @@
 
 
 
-        <footer class="row container-fluid">
+        <footer id="foot" class="row container-fluid bottom">
             <div class="col-md-4">
                 <ul>
                     <li class="btn btn-link"><a href="#">Home</a></li>
@@ -113,15 +112,15 @@
                 </p>
             </div>
             <div class="col-md-4">
-                    <ul>
-                        <li class="btn btn-link">Python</li>
-                        <li class="btn btn-link">C++</li>
-                        <li class="btn btn-link">JavaScript</li>
-                        <li class="btn btn-link">SQL</li>
-                        <li class="btn btn-link">Conduct</li>
-                    </ul>
-                    <span class="text-center">&copy 1999-<span id="this-year"></span>
-                </div>
+                <ul>
+                    <li class="btn btn-link">Python</li>
+                    <li class="btn btn-link">C++</li>
+                    <li class="btn btn-link">JavaScript</li>
+                    <li class="btn btn-link">SQL</li>
+                    <li class="btn btn-link">Conduct</li>
+                </ul>
+                <span class="text-center">&copy 1999-<span id="this-year"></span>
+            </div>
          </footer>
  
          <script src="{% static 'blog/scripts/jquery.js' %}"></script>

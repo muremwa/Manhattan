@@ -1,0 +1,51 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Search{% endblock title %}
+
+{% block style %}<link type="text/css" media="screen" rel="stylesheet" href="{% static 'blog/style/search.css' %}"/> {% endblock style %}
+
+
+{% block search %}active{% endblock search %}
+
+{% block content %}
+    <div class="container" id="main">
+        {% if query %}
+            {% if results %}
+                <div id="head">
+                    <div class="col-sm-4">
+                        {% include "blog/searchform.html" %}
+                    </div>
+                    <div class="row">
+                        <h3 class="lead container col-sm-4" style="padding-left: 0.6em;">results for <span id="the-query">{{ query }}</span></h3>
+                        <span id="res-count" class="col-sm-3">{{ results.count }} result{% if results.count != 1 %}s{% endif %}</span>
+                    </div>
+                </div>
+
+                {% for result in results %}
+                    <div class="list-group-item result col-sm-7">
+                        <a href="{{ result.get_absolute_url }}" class="col-sm-5">{{ result.name }}</a>
+                        <span class="col-sm-4">by <a href="{{ result.author.get_absolute_url }}">{{ result.author }}</a></span>
+                        <span>{{ result.date }}</span>
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <div id="no">
+                    <h2 class="container col-sm-8">No results for {{ query }} 😕</h2>
+                    <div class="container row">
+                        <a class="btn btn-outline-dark" href="{% url 'index' %}">All posts</a>
+                        <a class="btn btn-outline-dark" href="{% url 'tags' %}">All tags</a>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% else %}
+            <div id="sole-search" class="col-sm-10 container">
+                {% include "blog/searchform.html" %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block script %}<script src="{% static 'blog/scripts/search.js' %}"></script> {% endblock script %}

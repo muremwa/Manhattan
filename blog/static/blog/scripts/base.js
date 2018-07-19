@@ -65,7 +65,7 @@ function howLongAgo(){
                     postHour = parseInt(date.innerHTML.split(" ")[3].split(":")[0]);
                     var timeSuffix = dates[1].innerHTML.split(" ")[4];
                     // convert to 24 hours system
-                    if (timeSuffix == "a.m."){
+                    if (timeSuffix == "p.m."){
                         postHour = postHour + 12;
                     }
                     console.log(postHour + " >> " + hour + " " + timeSuffix);
@@ -98,4 +98,4 @@ function howLongAgo(){
 
 }
 
-howLongAgo();
+// howLongAgo();

@@ -57,14 +57,22 @@
                 <!-- Blog Comments -->
                 <div id="comments" class="container col-md-10 alert-light">
                     <h4>Comments <small class="text-danger"><i>trolling comments will be deleted!</i></small></h4>
-                    <!-- Comment entry -->
-                    <form class="form-inline" style="padding-bottom: 10px;">
-                        <div class="form-group col-sm-10">
-                            <input class="form-control" placeholder="add comment for this post" type="text" style="width: 100%;">
+
+                   <!-- Comment entry -->
+                    <form class="form-inline" style="padding-bottom: 10px;" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group col-sm-8">
+                            {% for field in form %}{{ field }}{% endfor %}
                         </div>
-                        <input class="btn btn-success col-sm-2" value="Comment" type="submit">
+                        <input style="margin-left: 10px;" class="btn btn-success" value="comment" type="submit">
                     </form>
+                    <script type="text/javascript">
+
+                    </script>
+
+
                     {% if comments %}
+                        <hr>
                         {% for comment in comments %}
                             <div class="row comment">
                                 <div id="user-img" class="col-sm-1">
@@ -72,7 +80,7 @@
                                 </div>
                                 <div class="col-sm-11">
                                     <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
-                                    <p>{{ comment.comment }}</p>
+                                    <p>{{ comment.comment_text }}</p>
                                 </div>
                             </div>
                         
@@ -133,3 +141,5 @@
 </div>
     
 {% endblock content %}
+
+{% block script %}<script src="{% static 'blog/scripts/posts.js' %}"></script>{% endblock script %}

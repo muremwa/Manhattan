@@ -8,6 +8,9 @@ urlpatterns = [
     # /blog/post4/
     path('post<int:id>/', views.post, name="post"),
 
+    # /blog/search
+    path('search/', views.search, name="search"),
+
     # /blog/author4/
     path('author<int:id>/', views.author, name="user"),
 
@@ -16,8 +19,5 @@ urlpatterns = [
 
     # /blog/tags/movies
     path('tags/<tag_name>/', views.tag, name="tag-detail"),
-
-    # /blog/post4/comment
-    path('post/comment/', views.comment, name="comment"),
 
 ]

@@ -8,14 +8,6 @@
 
 {% block blog %}active{% endblock blog %}
 
-{% block search %}
-<form id="search-form" method="get" action="" class="form-inline my-2 my-lg-0">
-    {% csrf_token %}
-    <input name="query" class="form-control mr-sm-2" type="search" placeholder="Search posts" value="{{ request.GET.query }}" aria-label="Search">
-    <button id="search" class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-</form>
-{% endblock search %}
-
 {% block content %}
 
 <div id="main">
@@ -30,25 +22,42 @@
                 <a href="{% url 'tags' %}">More on tags</a>
             </ul>
         </div>
-    
-        {% if the_query %}
-            <div id="blogs" class="col-md-9">
-                {% if posts %}
-                    <h1 style="font-family: calibri" class="text-center">Results for {{ the_query }}</h1>
-                    {% for post in posts %}
-                        <div class="list-group-item result-post">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <a href="{{ post.get_absolute_url }}">{{ post.name }}</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    by <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a>
-                                </div>
-                                <div class="col-sm-4">posted <a class="dated" href="#" >{{ post.date }}</a></div>
-                                </div>
+         
+        <div id="blogs" class="col-md-9">
+            <div id="header" >
+                <h1>Blogs</h1>
+                <p class="lead">Welcome to blogs on muremwa.com. Explore our interesting blogs via top, most popular etc.
+                Topics include programming, all kinds of art, auto, gaming, and even cooking. Also <a href="#">contact us </a>
+                to contribute.
+                </p>
+            </div>
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="post row col-md-9 alert alert-secondary alert-dismissible fade show">
+                        <div class="col-md-3">
+                            <img class="card-img-top" src="{{ post.image.url }}" alt="image for {{ post.name }}">
                         </div>
-                    {% endfor %}
-                    <div id="pages" style="letter-spacing: 20px;">
+                        <div class="col-md-9 blog-info">
+                            <div>
+                                <h5 class="lead">{{ post.name }}</h5><span class="text-lowercase text-info">Posted <span class="dated text-primary" href="#">{{ post.date }}</span></span>
+                            </div>
+                            <hr>
+                            <p style="font-size: 15px;">{{ post.lead_text }}.<a href="{{ post.get_absolute_url }}">Read more...</a></p>
+                            <hr>
+                            <div class="row">
+                                <span class="blog-foot col-sm-5">By <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></span>
+                                {% if post.comment_set.all.count %}
+                                    <span class="col-sm-4">
+                                        {{ post.comment_set.all.count }}
+                                        <span>&#xe200;</span>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <!-- <span class="tags" style="float: right;"><a href="#">Tag 1</a></span> -->
+                        </div>
+                    </div>
+                {% endfor %}
+                <div id="pages" style="letter-spacing: 20px;">
                     {% if posts.has_other_pages %}
                         <ul class="pagination">
                             {% if posts.has_previous %}
@@ -70,73 +79,12 @@
                             {% endif %}
                         </ul>
                     {% endif %}
-                    </div>
-                {% else %}
-                    <div id="no" class="container col-md-7 text-center">
-                        <h2>No results for {{ the_query }}</h2>
-                        <h1>😕</h1>
-                        <div class="row" style="margin: 4em;">
-                            <a href="{% url 'index' %}"  class="btn btn-outline-dark">View all blogs posts</a>
-                            <a href="{% url 'tags' %}" class="btn btn-outline-dark">View all tags</a>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        {% else %}
-            <div id="blogs" class="col-md-9">
-                <div id="header" >
-                    <h1>Blogs</h1>
-                    <p class="lead">Welcome to blogs on muremwa.com. Explore our interesting blogs via top, most popular etc.
-                    Topics include programming, all kinds of art, auto, gaming, and even cooking. Also <a href="#">contact us </a>
-                    to contribute.
-                    </p>
                 </div>
-                {% if posts %}
-                    {% for post in posts %}
-                        <div class="post row col-md-9 alert alert-secondary alert-dismissible fade show">
-                            <div class="col-md-3">
-                                <img class="card-img-top" src="{{ post.image.url }}" alt="image for {{ post.name }}">
-                            </div>
-                            <div class="col-md-9 blog-info">
-                                <div>
-                                    <h5 class="lead">{{ post.name }}</h5><span class="text-lowercase text-info">Posted <span class="dated text-primary" href="#">{{ post.date }}</span></span>
-                                </div>
-                                <hr>
-                                <p style="font-size: 15px;">{{ post.lead_text }}.<a href="{{ post.get_absolute_url }}">Read more...</a></p>
-                                <hr>
-                                <span class="blog-foot">By <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></span>
-                                <!-- <span class="tags" style="float: right;"><a href="#">Tag 1</a></span> -->
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <div id="pages" style="letter-spacing: 20px;">
-                        {% if posts.has_other_pages %}
-                            <ul class="pagination">
-                                {% if posts.has_previous %}
-                                    <li><a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
-                                {% else %}
-                                    <li class="disabled"><span>&laquo;</span></li>
-                                {% endif %}
-                                {% for i in posts.paginator.page_range %}
-                                    {% if posts.number == i %}
-                                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></li>
-                                    {% else %}
-                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if posts.has_next %}
-                                    <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
-                                {% else %}
-                                    <li class="disabled"><span>&raquo;</span></li>
-                                {% endif %}
-                            </ul>
-                        {% endif %}
-                    </div>
-                {% else %}
-                    <h4 class="text-danger">Posts coming soon</h4>
-                {% endif %}
-            </div>
-        {% endif %}
+            {% else %}
+                <h4 class="text-danger">Posts coming soon</h4>
+            {% endif %}
+        </div>
+    
     </div>
 
 
