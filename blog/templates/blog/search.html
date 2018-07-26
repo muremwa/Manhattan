@@ -27,6 +27,14 @@
                         <a href="{{ result.get_absolute_url }}" class="col-sm-5">{{ result.name }}</a>
                         <span class="col-sm-4">by <a href="{{ result.author.get_absolute_url }}">{{ result.author }}</a></span>
                         <span>{{ result.date }}</span>
+                        <div style="float: right;">
+                            {% if result.comment_set.all.count %}
+                                <span class="col-sm-4 comment-count">
+                                    {{ result.comment_set.all.count }}
+                                <span>&#xe200;</span>
+                                </span>
+                            {% endif %}
+                        </div>
                     </div>
                 {% endfor %}
 
@@ -37,6 +45,7 @@
                         <a class="btn btn-outline-dark" href="{% url 'index' %}">All posts</a>
                         <a class="btn btn-outline-dark" href="{% url 'tags' %}">All tags</a>
                     </div>
+                    {% include "blog/searchform.html" %}
                 </div>
             {% endif %}
 
