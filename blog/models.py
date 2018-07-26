@@ -55,6 +55,7 @@ class Post(models.Model):
     lead_text = models.TextField(null=True)
     image = models.FileField(null=True)
     tags = models.ManyToManyField(Tag, help_text="Select as many as possible")
+    likes = models.ManyToManyField(User)
 
     def __str__(self):
         return "{} by {}".format(self.name, self.author)
