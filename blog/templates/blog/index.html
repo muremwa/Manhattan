@@ -42,7 +42,7 @@
                                 <h5 class="lead">{{ post.name }}</h5><span class="text-lowercase text-info">Posted <span class="dated text-primary" href="#">{{ post.date }}</span></span>
                             </div>
                             <hr>
-                            <p style="font-size: 15px;">{{ post.lead_text }}.<a href="{{ post.get_absolute_url }}">Read more...</a></p>
+                            <p style="font-size: 15px;">{{ post.lead_text|truncatechars:100 }}.<a href="{{ post.get_absolute_url }}">Read more</a></p>
                             <hr>
                             <div class="row">
                                 <span class="blog-foot col-sm-5">By <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></span>
