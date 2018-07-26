@@ -12,14 +12,17 @@ urlpatterns = [
     # Blog app
     path('blog/', include("blog.urls")),
 
-    # redirect to blog
+    # redirect to signup
     path('', RedirectView.as_view(url="/blog/")),
 
     # Accounts and authentication
     path('accounts/', include("django.contrib.auth.urls")),
 
     # signup
-    path('signup/', views.signup, name="signup")
+    path('signup/', views.signup, name="signup"),
+
+    # ajax validation
+    path('ajax/validate_username', views.validate_username, name="validate_username"),
 ]
 
 if settings.DEBUG:

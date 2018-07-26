@@ -1,7 +1,8 @@
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
-# from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 
 def signup(request):
@@ -19,3 +20,14 @@ def signup(request):
         form = SignUpForm()
 
     return render(request, 'signup.html', {'form':form})
+
+
+# check if a user name exists
+def validate_username(request):
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': User.objects.filter(username__icontains=username).exists()
+    }
+    if data['is_taken']:
+        data['error_message'] = '{} already exists'.format(username)
+    return JsonResponse(data)

@@ -1,8 +1,6 @@
 {% extends "blog/base.html" %}
 {% load staticfiles %}
-
 {% block title %}Sign up{% endblock %}
-
 {% block signup %}active{% endblock signup %}
 
 {% block content %}
@@ -27,7 +25,6 @@
         #main:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
         }
-      
     </style>
 
     <div class="row">
@@ -35,8 +32,7 @@
             <div class="jumbotron text-justify" id="jumbo">
                 <div class="container">
                     <h1 class="text-center">muremwa.com</h1>
-                    <p>Welcome to muremwa.com...home to <a href="{% url 'index' %}">Blogs</a>, master tutorials and more..<a style="color: darkblue;" class="btn btn-link" onclick="signUp()">Sign up now</a> and join thousands of others
-                       . If you already have an account click the button below to login
+                    <p>Welcome to muremwa.com...home to <a href="{% url 'index' %}">Blogs</a>, master tutorials and more..<a style="color: darkblue;" class="btn btn-link" onclick="signUpAnimation()">Sign up now</a> and join thousands of others. If you already have an account click the button below to login
                     </p>
                     <hr>
                     <p class="text-info">Already have an account? <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a></p>
@@ -45,15 +41,16 @@
         </div>
 
         <div id="main" class="container col-md-4">
-            
-            <input onclick="normal()" id="normal" style="font-size: 10px; display: none;" class="btn btn-dark col-sm-3" value="Normal view">
+
+            <input onclick="normalView()" id="normal" style="font-size: 10px; display: none;" class="btn btn-dark col-sm-3" value="Normal view">
            
             <h2>Sign up</h2>
-            <form method="post">
+            <form method="post" data-validate-username-url="{% url 'validate_username' %}">
                 {% csrf_token %}
                 {% for field in form %}
                   <div class="form-group">
-                      {{ field.label_tag }}
+                      {{ field.label_tag }}<span id="tick" style="margin-left: 20px; display: none;">&#10003;</span><br />
+                      <span class="text-danger" id="taken-username"></span>
                       {{ field }}
                       {% for error in field.errors %}
                           <span class="text-warning">{{ error }}</span>
@@ -62,54 +59,14 @@
                 {% endfor %}
                 <div id="acceptdiv">
                     <span class="text-danger">By signing in you are accepting our <a href="#">terms and conditions</a></span>
-                    <button class="btn btn-outline-danger" onclick="accept()">Accept</button>
+                    <a class="btn btn-outline-danger" onclick="accept()">Accept</a>
                 </div>
                 <button style="display: none;" id="signup" class="btn btn-success" type="submit">Sign up</button>
             </form>
             <script type="text/javascript">
-                inputs = document.getElementsByTagName("input");
-                for(i in inputs){
-                    inputs[i].classList.add("form-control");
-                }
-                
-                function signUp(){
-                    $(function(){
-                        $("#jumbo").slideUp(500);
-                    });
-
-                    var form = document.getElementById("main");
-                    form.classList.remove("col-md-4");
-                    form.classList.add("col-md-6");
-                    document.getElementById("normal").style.display = "block";
-
-                }
-
-                function normal(){
-                    var form = document.getElementById("main");
-                    form.classList.remove("col-md-6");
-                    form.classList.add("col-md-4");
-
-                    $(function(){
-                        $("#jumbo").slideDown(500);
-                    });   
-                    document.getElementById("normal").style.display = "none";
-                }
-                $(function(){
-                    $("#main").tooltip();
-                });
-
-                function accept(){
-                    $(function(){
-                        $("#acceptdiv").hide(500);
-                        $("#signup").show(100);
-                    });
-                    
-                }
-                
-
-                
-               
             </script>
         </div>
     </div>
 {% endblock content %}
+
+{% block script %}<script src="{% static 'signup.js' %}"></script> {% endblock script %}
