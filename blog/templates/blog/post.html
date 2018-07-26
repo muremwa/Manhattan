@@ -36,11 +36,11 @@
                             {% if entry.image %}
                                 <img class="img-thumbnail section-image" alt="image for {{entry.title}}" src="{{ entry.image.url }}">
                             {% endif %}
-                            <p>{{ entry.content }}</p>        
+                            <p>{{ entry.content|linebreaks|safe }}</p>        
                         </div>
                     {% endfor %}
                 </div>
-            </div>
+            </div>          
 
             <hr>
             <p>Tags
@@ -55,46 +55,7 @@
            
             {% block post_comments %}
                 <!-- Blog Comments -->
-                <div id="comments" class="container col-md-10 alert-light">
-                    <h4>Comments <small class="text-danger"><i>trolling comments will be deleted!</i></small></h4>
-
-                   <!-- Comment entry -->
-                    <form class="form-inline" style="padding-bottom: 10px;" action="" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-group col-sm-8">
-                            {% for field in form %}{{ field }}{% endfor %}
-                        </div>
-                        <input style="margin-left: 10px;" class="btn btn-success" value="comment" type="submit">
-                    </form>
-                    <script type="text/javascript">
-
-                    </script>
-
-
-                    {% if comments %}
-                        <hr>
-                        {% for comment in comments %}
-                            <div class="row comment">
-                                <div id="user-img" class="col-sm-1">
-                                    <img src="{{ comment.user.image.url }}" alt="image of {{ comment.user.user }}">
-                                </div>
-                                <div class="col-sm-11">
-                                    <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
-                                    <p>{{ comment.comment_text }}</p>
-                                </div>
-                            </div>
-                        
-                            <hr>
-                        {% endfor %}
-                    {% else %}
-                        <div style="padding-bottom: 10px;" class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <h4>No comments on this post</h4>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endif %}
-                </div>
+                {% include 'blog/comments.html' %}
             {% endblock post_comments %}
         </div>
         <div id="side-bar" class="col-md-3">
