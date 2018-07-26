@@ -14,7 +14,7 @@
                 <img id="main-image" class="card-img-bottom" alt="image for {{ tag.name }}" src="{{ tag.image.url }}">
             </div>
             <div id="tag-des" class="col-md-9 text-center">
-                <p class="lead">{{ tag.description }}</p>
+                <p class="lead">{{ tag.description|linebreaks }}</p>
             </div>
         </div>
         <hr>
