@@ -10,7 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     writer_name = models.CharField(max_length=100, default="to be added")
     bio = models.TextField()
-    image = models.FileField(null=True)
+    image = models.FileField(null=True, default="default.png")
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -55,7 +55,7 @@ class Post(models.Model):
     lead_text = models.TextField(null=True)
     image = models.FileField(null=True)
     tags = models.ManyToManyField(Tag, help_text="Select as many as possible")
-    likes = models.ManyToManyField(User)
+    likes = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return "{} by {}".format(self.name, self.author)
