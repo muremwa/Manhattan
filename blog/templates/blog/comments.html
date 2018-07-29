@@ -15,11 +15,28 @@
             var commentUrl = "{% url 'post_comment' %}?next={% url 'post' post.id %}";
         </script>
     {% else %}
-        <a href="{% url 'login' %}" class="btn btn-success">Log in to comment</a>
+        <a href="{% url 'login' %}?next={% url 'post' post.id %}" class="btn btn-success">Log in to comment</a>
     {% endif %}
+
+
     <!-- All comments -->
     {% if comments %}
+    <script type="text/javascript">var allCommentsUrl = "{% url 'all-comments' %}"; var token = "{% csrf_token %}";</script>
+
         <hr>
+        <span id="comment-error" style="display: none;" class="container alert alert-danger"></span>
+        <div style="display: none;" id="new-comment">
+            <div class="row comment">
+                <div id="user-img" class="col-sm-1">
+                    <img src="{{ user.profile.image.url }}" alt="image of {{ user }}">
+                </div>
+                <div class="col-sm-11">
+                    <span><strong>{{ user }}</strong> posted <strong id="new-comment-posted" class="dated"></strong></span>
+                    <p id="new-comment-text"></p>
+                </div>
+            </div>
+            <hr>
+        </div>
         {% for comment in comments %}
             <div class="row comment">
                 <div id="user-img" class="col-sm-1">
@@ -35,7 +52,7 @@
         {% endfor %}
     {% else %}
         <div style="padding-bottom: 10px;" class="alert alert-warning alert-dismissible fade show" role="alert">
-            <h4>No comments on this post</h4>
+            <h4>Be the first to comment</h4>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

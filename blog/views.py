@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from .models import Post, Tag, Profile
+from .models import Post, Tag, Profile, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from .forms import CommentForm
 from django.db.models import Q
+from django.http import HttpResponse, JsonResponse
 
 # all blogs
 def index(request):
@@ -30,7 +29,6 @@ def index(request):
 
 
 # each blog post
-@login_required
 def post(request, id):
     post = get_object_or_404(Post, pk=id)
     tags = post.tags.all()
@@ -47,19 +45,7 @@ def post(request, id):
     # comments
     comments = post.comment_set.all()
 
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.user = request.user.profile
-            comment.save()
-
-            return HttpResponseRedirect(reverse('post', args=(id,)))
-
-    else:
-        form = CommentForm()
+    form = CommentForm()
 
     return render(request, 'blog/post.html', {
         'post':post,
@@ -132,3 +118,36 @@ def search(request):
         'query':query,
         'results':results,
     })
+
+
+# ajax comment
+@login_required
+def comment(request):
+    post = get_object_or_404(Post, pk=request.POST.get('id'))
+
+    if request.method == "POST":
+        comment = request.POST['comment']
+        user = request.user.profile
+
+        Comment.objects.create(
+            comment_text=comment,
+            post=post,
+            user=user
+        )
+        return HttpResponse(" ")
+
+
+# fetch comments
+def all_comments(request):
+    the_post = get_object_or_404(Post, pk=request.GET.get('id'))
+    comments = the_post.comment_set.filter(user=request.user.profile).values('comment_text', 'post', 'user', 'time')[:1]
+    response = {}
+
+    try:
+        response['message'] = 'Success from the server!'
+        response['results'] = list(comments)
+    except:
+        response['message'] = 'Failed from the server'
+        response['results'] = 'Unexpected error from the server'
+
+    return JsonResponse(response)

@@ -9,7 +9,7 @@ This is an blogs app that am creating to practice my django skills
 * [Features](#features)
 * [Things i would like to learn](#things-to-improve)
 * [Contact Me](#contacts)
-* [Tech Stach](#made-with)
+* [Tech Stack](#made-with)
 
 ## Features
 __The features I have been able to incoparate include;__
@@ -27,7 +27,7 @@ __The features I have been able to incoparate include;__
 
 >**Please help me improve it**
 ## Things to improve
->*To be added*
+1. The comment section will only show one new comment each time
 
 ## Contacts
 >Email - danmburu254@gmail.com  
