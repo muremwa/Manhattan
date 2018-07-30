@@ -60,6 +60,13 @@ function newCommentRegion (commText, date) {
     datePosted.innerHTML = "Just now";
     $("#new-comment").show(200);
     document.getElementById("id_comment_text").placeholder = "Say something about this post";
+    // If no comments existed
+    try {
+        document.getElementById("no-comments").style.display = "none";
+    }
+    catch (err) {
+        console.log("other comments exist!");
+    }
 }
 
 function commentError (message) {
