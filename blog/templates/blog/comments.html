@@ -10,6 +10,8 @@
             </div>
             <button style="margin-left: 10px;" class="btn btn-success" value="{{ post.id }}" type="submit">Comment</button>
         </form>
+        <div id="spin" class="container col-sm-5">
+        </div>
         <script type="text/javascript">
             var pk = "{{ post.id }}";
             var commentUrl = "{% url 'post_comment' %}?next={% url 'post' post.id %}";

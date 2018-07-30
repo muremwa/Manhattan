@@ -90,6 +90,36 @@ h5 {
     margin-top: 3em;
 }
 
+#spin {
+    min-height: 60px;
+    margin-left: 30px;
+    color: crimson;
+    overflow: hidden;
+}
+
+/* Spinner */
+.spinner:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 40px;
+    width: 40px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border-top: 2px solid rgb(16, 120, 161);
+    border-right: 2px solid transparent;
+    animation: spinner 0.7s linear infinite;
+}
+
+@keyframes  spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @media screen and ( max-width: 1077px){
     html {
         font-size: 16px;

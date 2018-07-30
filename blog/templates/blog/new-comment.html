@@ -1,16 +1,11 @@
 <!-- comment error -->
 <span id="comment-error" style="display: none;" class="container alert alert-danger"></span>
 
-<!-- new comment -->
-<div style="display: none;" id="new-comment">
-    <hr>
-    <div class="row comment">
-        <div id="user-img" class="col-sm-1">
-            <img src="{{ user.profile.image.url }}" alt="image of {{ user }}">
-        </div>
-        <div class="col-sm-11">
-            <span><strong>{{ user }}</strong> posted <strong id="new-comment-posted" class="dated"></strong></span>
-            <p id="new-comment-text"></p>
-        </div>
-    </div>
+<script type="text/javascript">
+    var userImageAddress = "{{ user.profile.image.url }}";
+    var currentUserName = "{{ user }}"; 
+</script>
+
+<div id="new-comments">
+    
 </div>
