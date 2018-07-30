@@ -27,7 +27,7 @@ __The features I have been able to incoparate include;__
 
 >**Please help me improve it**
 ## Things to improve
-1. The comment section will only show one new comment each time
+1. ~~The comment section will only show one new comment each time~~ ___fixed___
 
 ## Contacts
 >Email - danmburu254@gmail.com  
