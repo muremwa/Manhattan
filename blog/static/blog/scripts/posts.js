@@ -117,6 +117,9 @@ function newComment (user, text, time) {
     catch (err) {
         console.log("You are not the first to comment");
     }
+
+    // error message that existed needs to be removed if it exists
+    document.getElementById("comment-error").style.display = "none";
 }
 
 
