@@ -16,7 +16,7 @@ urlpatterns = [
     path('author<int:id>/', views.author, name="user"),
 
     # /blog/tags/
-    path('tags/', views.tags, name="tags"),
+    path('tags/', views.TagsView.as_view(), name="tags"),
 
     # /blog/tags/movies
     path('tags/<tag_name>/', views.tag, name="tag-detail"),
