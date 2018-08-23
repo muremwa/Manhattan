@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CommentForm, CommentImageForm
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
-from django.views import generic, View
+from django.views import generic
 
 # all blogs
 def index(request):

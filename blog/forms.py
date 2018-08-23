@@ -15,7 +15,7 @@ class CommentImageForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('comment_image',)
+        fields = ('comment_image', 'image_caption')
 
 
 # profile form
