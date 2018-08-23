@@ -1,7 +1,7 @@
 var inputs = document.getElementsByTagName("input");
 
 for (input in inputs) {
-    if (inputs[input].type == "text") {
+    if (inputs[input].type == "text" || inputs[input].type == "file") {
         inputs[input].classList.add("form-control");
         inputs[input].style.width = "100%";
         inputs[input].placeholder = "Say something about this post";
@@ -19,6 +19,7 @@ $(document).on('submit', '#comment-form', function(e){
         data: {
             comment:$("#id_comment_text").val(),
             id: pk,
+            // image:document.getElementById("id_comment_image").files[0],
             csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()
         },
         success: function(){
@@ -129,3 +130,4 @@ function commentError (message) {
     errorDiv.innerHTML = message;
     $(errorDiv).show(100);
 }
+  

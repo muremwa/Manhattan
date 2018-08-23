@@ -6,7 +6,7 @@
         <form class="form-inline" id="comment-form" style="padding-bottom: 10px;" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group col-sm-8">
-                {% for field in form %}{{ field }}{% endfor %}
+                {% for field in comment_form %}{{ field }}{% endfor %}
             </div>
             <button style="margin-left: 10px;" class="btn btn-success" value="{{ post.id }}" type="submit">Comment</button>
         </form>
@@ -34,6 +34,11 @@
                 <div class="col-sm-11">
                     <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
                     <p>{{ comment.comment_text }}</p>
+                    {% if comment.comment_image %}
+                        <div class="comment_image_area col-sm-10">
+                            <img class="comment_image" alt="image from comment by {{ comment.user }}" src="{{ comment.comment_image.url }}">
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         

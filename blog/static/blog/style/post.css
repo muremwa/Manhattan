@@ -90,6 +90,10 @@ h5 {
     margin-top: 3em;
 }
 
+.comment_image {
+    max-height: 10em;
+}
+
 #spin {
     min-height: 60px;
     margin-left: 30px;

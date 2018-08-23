@@ -23,7 +23,7 @@
                 </div>
 
                 {% for result in results %}
-                    <div class="list-group-item result col-sm-7">
+                    <div class="list-group-item result">
                         <a href="{{ result.get_absolute_url }}" class="col-sm-5">{{ result.name }}</a>
                         <span class="col-sm-4">by <a href="{{ result.author.get_absolute_url }}">{{ result.author }}</a></span>
                         <span>{{ result.date }}</span>

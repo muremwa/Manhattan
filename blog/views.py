@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from .models import Post, Tag, Profile, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from .forms import CommentForm
+from .forms import CommentForm, CommentImageForm
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
+from django.views import generic, View
 
 # all blogs
 def index(request):
@@ -22,9 +23,9 @@ def index(request):
         posts = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/index.html', {
-        'posts':posts,
-        'tags':tags,
-        'the_query':the_query,
+        'posts': posts,
+        'tags': tags,
+        'the_query': the_query,
     })
 
 
@@ -45,16 +46,16 @@ def post(request, id):
     # comments
     comments = post.comment_set.all()
 
-    form = CommentForm()
+    comment_form = CommentForm()
 
     return render(request, 'blog/post.html', {
-        'post':post,
-        'entries':entries,
-        'others':others,
-        'tags':tags,
-        'relation':tag,
-        'comments':comments,
-        'form':form,
+        'post': post,
+        'entries': entries,
+        'others': others,
+        'tags': tags,
+        'relation': tag,
+        'comments': comments,
+        'comment_form': comment_form,
     })
 
 
@@ -64,18 +65,18 @@ def author(request, id):
     posts = the_author.post_set.all()
 
     return render(request, 'blog/author.html', {
-        'author':the_author,
-        'posts':posts,
+        'author': the_author,
+        'posts': posts,
     })
 
 
 # tags
-def tags(request):
-    the_tags = Tag.objects.all()
+class TagsView(generic.ListView):
+    template_name = 'blog/tags.html'
+    context_object_name = 'tags'
 
-    return render(request, 'blog/tags.html', {
-        'tags':the_tags,
-    })
+    def get_queryset(self):
+        return Tag.objects.all()
 
 
 # each tag
@@ -94,9 +95,9 @@ def tag(request, tag_name):
                     rel_tags.append(tag)
 
     return render(request, 'blog/tag.html', {
-        'tag':the_tag,
-        'posts':posts,
-        'rel_tags':rel_tags,
+        'tag': the_tag,
+        'posts': posts,
+        'rel_tags': rel_tags,
     })
 
 
@@ -115,8 +116,8 @@ def search(request):
         results = []
 
     return render(request, 'blog/search.html', {
-        'query':query,
-        'results':results,
+        'query': query,
+        'results': results,
     })
 
 
@@ -137,7 +138,7 @@ def comment(request):
         return HttpResponse(" ")
 
 
-# fetch comments
+# Ajax fetch comments
 def all_comments(request):
     the_post = get_object_or_404(Post, pk=request.GET.get('id'))
     comments = the_post.comment_set.filter(user=request.user.profile).values('comment_text', 'post', 'user', 'time')[:1]

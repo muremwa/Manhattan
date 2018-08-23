@@ -29,7 +29,6 @@ class Profile(models.Model):
         return self.writer_name
 
 
-
 # Tags model
 class Tag(models.Model):
     name = models.CharField(max_length=200, null=False)
@@ -85,6 +84,7 @@ class Entry(models.Model):
 # comments on post
 class Comment(models.Model):
     comment_text = models.CharField(null=False, max_length=140)
+    comment_image = models.FileField(null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     time = models.DateTimeField(null=False, auto_now=True)
