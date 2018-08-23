@@ -19,6 +19,7 @@ $(document).on('submit', '#comment-form', function(e){
         data: {
             comment:$("#id_comment_text").val(),
             id: pk,
+            // image:document.getElementById("id_comment_image").files[0],
             csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()
         },
         success: function(){

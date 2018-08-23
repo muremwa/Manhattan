@@ -20,6 +20,7 @@
         <a href="{% url 'login' %}?next={% url 'post' post.id %}" class="btn btn-success">Log in to comment</a>
     {% endif %}
 
+
     <!-- All comments -->
     <script type="text/javascript">var allCommentsUrl = "{% url 'all-comments' %}"; var token = "{% csrf_token %}";</script>
     {% if comments %}

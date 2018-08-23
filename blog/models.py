@@ -85,7 +85,6 @@ class Entry(models.Model):
 class Comment(models.Model):
     comment_text = models.CharField(null=False, max_length=140)
     comment_image = models.FileField(null=True, blank=True)
-    image_caption = models.CharField(null=True, blank=True, max_length=200)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     time = models.DateTimeField(null=False, auto_now=True)
