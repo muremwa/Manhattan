@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                  <a class="nav-link {% block home %}{% endblock home %}" href="#">Home</a>
+                  <a class="nav-link {% block home %}{% endblock home %}" href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link {% block blog %}{% endblock blog %}" href="{% url 'index' %}">Blog</a>
@@ -46,11 +46,11 @@
                 <div> 
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link {% block profile %}{% endblock profile %} dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Profile
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <span class="dropdown-item">Logged in as <i style="color:darkblue;">{{ user }}</i></span>
+                            <span class="dropdown-item">Logged in as <i style="color:darkblue;"><a href="{% url 'profile'  %}">{{ user }}</a></i></span>
                             <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                             {% if user.is_staff %}
                                 <a class="dropdown-item" target="_blank" href="http://127.0.0.1:8000/admin/">Admin page</a>

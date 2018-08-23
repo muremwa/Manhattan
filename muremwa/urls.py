@@ -21,6 +21,9 @@ urlpatterns = [
     # signup
     path('signup/', views.signup, name="signup"),
 
+    # profile
+    path('profile/', views.profile, name="profile"),
+
     # ajax validation
     path('ajax/validate_username', views.validate_username, name="validate_username"),
 ]
