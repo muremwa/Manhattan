@@ -42,8 +42,8 @@
                 <div id="no">
                     <h2 class="container col-sm-8">No results for {{ query }} 😕</h2>
                     <div class="container row">
-                        <a class="btn btn-outline-dark" href="{% url 'index' %}">All posts</a>
-                        <a class="btn btn-outline-dark" href="{% url 'tags' %}">All tags</a>
+                        <a class="btn btn-outline-dark" href="{% url 'blog:index' %}">All posts</a>
+                        <a class="btn btn-outline-dark" href="{% url 'blog:tags' %}">All tags</a>
                     </div>
                     {% include "blog/searchform.html" %}
                 </div>

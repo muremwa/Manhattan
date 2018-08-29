@@ -14,15 +14,15 @@
         </div>
         <script type="text/javascript">
             var pk = "{{ post.id }}";
-            var commentUrl = "{% url 'post_comment' %}?next={% url 'post' post.id %}";
+            var commentUrl = "{% url 'blog:post_comment' %}?next={% url 'blog:post' post.id %}";
         </script>
     {% else %}
-        <a href="{% url 'login' %}?next={% url 'post' post.id %}" class="btn btn-success">Log in to comment</a>
+        <a href="{% url 'login' %}?next={% url 'blog:post' post.id %}" class="btn btn-success">Log in to comment</a>
     {% endif %}
 
 
     <!-- All comments -->
-    <script type="text/javascript">var allCommentsUrl = "{% url 'all-comments' %}"; var token = "{% csrf_token %}";</script>
+    <script type="text/javascript">var allCommentsUrl = "{% url 'blog:all-comments' %}"; var token = "{% csrf_token %}";</script>
     {% if comments %}
         {% include "blog/new-comment.html" %}
         <hr>
@@ -34,11 +34,6 @@
                 <div class="col-sm-11">
                     <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
                     <p>{{ comment.comment_text }}</p>
-                    {% if comment.comment_image %}
-                        <div class="comment_image_area col-sm-10">
-                            <img class="comment_image" alt="image from comment by {{ comment.user }}" src="{{ comment.comment_image.url }}">
-                        </div>
-                    {% endif %}
                 </div>
             </div>
         
