@@ -1,0 +1,34 @@
+#main {
+    margin-top: 5em;
+}
+
+.post-image {
+    height: 7.5em;
+}
+
+#head {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin-bottom: 1.5em;
+    padding-bottom: 0.5em;
+}
+
+.tag-section {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    /* padding-bottom: 30px; */
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: gainsboro;
+}
+
+.tag-post {
+    /* border-right: 1px solid blue; */
+    padding-top: 0.5em;
+    padding-bottom: 0.6em;
+    transition: 0.5s;
+}
+
+.tag-post:hover {
+    background-color: blanchedalmond;
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.6);
+}

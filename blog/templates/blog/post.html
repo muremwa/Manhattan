@@ -2,10 +2,8 @@
 {% load staticfiles %}
 
 {% block title %}{{ post.name }} by {{ post.author }}{% endblock title %}
-{% block style %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'blog/style/post.css' %}">
-{% endblock style %}
-
+{% block style %}<link rel="stylesheet" type="text/css" media="screen" href="{% static 'blog/style/post.css' %}">{% endblock style %}
+{% block topScript %}<script src="{% static 'scripts/marked.min.js' %}"></script>{% endblock topScript %}
 {% block blog %}active{% endblock blog %}
 
 
@@ -21,11 +19,14 @@
             <div class="container col-md-11 text-justify">
                 <div class="col-sm-6" id="main-image">
                     <img class="img-fluid" src="{{ post.image.url }}" alt="main image of {{ post.name }}">
-                    <!-- <figcaption>Caption name</figcaption> -->
+                    {% if post.image_caption %}<figcaption class="text-info">{{ post.image_caption }}</figcaption>{% endif %}
                 </div>
                 <hr>
-                <p>{{ post.lead_text }}</p>
+                <p class="lead">{{ post.lead_text }}</p>
                 <hr>
+                {% if post.content %}
+                <div class="">{{ post.get_marked_content }}</div>
+                {% endif %}
                 <div>
                     {% for entry in entries %}
                         <div class="section">
@@ -36,7 +37,7 @@
                             {% if entry.image %}
                                 <img class="img-thumbnail section-image" alt="image for {{entry.title}}" src="{{ entry.image.url }}">
                             {% endif %}
-                            <p>{{ entry.content|linebreaks|safe }}</p>        
+                            <p class="marked-content">{{ entry.content }}</p>        
                         </div>
                     {% endfor %}
                 </div>
@@ -52,7 +53,6 @@
             </p>
             <hr>
 
-           
             {% block post_comments %}
                 <!-- Blog Comments -->
                 {% include 'blog/comments.html' %}
@@ -68,8 +68,13 @@
                     <span><a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></span>
                     <p class="text-justify">{{ post.author.bio}}</p>
                 </div>
-                <div class="card-footer">
-                    <a class="btn btn-link" href="{{ post.author.get_absolute_url }}">More on the author</a>
+                <div id="more-author" class="card-footer">
+                    {% if user.profile == post.author %}
+                        <a class="col-sm-5 btn btn-outline-primary" href="{% url 'blog:edit_post' post.id %}">Edit post</a>
+                        <a class="col-sm-5 btn btn-outline-danger" href="{% url 'blog:delete_post' post.id %}">Delete post</a>
+                    {% else %}
+                        <a class="btn btn-link" href="{{ post.author.get_absolute_url }}">More on the author</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -103,9 +108,4 @@
     
 {% endblock content %}
 
-    {% block script %}
-        <script src="{% static 'scripts/vendor/jquery.ui.widget.js' %}"></script>
-        <script src="{% static 'scripts/jquery.iframe-transport.js' %}"></script>
-        <script src="{% static 'scripts/jquery.fileupload.js' %}"></script>
-        <script src="{% static 'blog/scripts/posts.js' %}"></script>
-    {% endblock script %}
+{% block script %}<script src="{% static 'blog/scripts/posts.js' %}"></script>{% endblock script %}

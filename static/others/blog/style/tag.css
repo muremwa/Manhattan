@@ -1,0 +1,33 @@
+#main {
+    margin-top: 5em;
+}
+
+#top {
+    background-color: gainsboro;
+    padding-left: 0;
+}
+
+#tag-des {
+    margin-top: 3em;
+}
+
+.post-image {
+    height: 7.5em;
+}
+
+.rel-tag-button {
+    margin: 0.222em;
+    min-width: 8em;
+}
+
+@media screen and ( max-width: 576px){
+    .post-image {
+        height: 15em;
+    }
+
+    .tag-post {
+        margin-top: 1em;
+        border-top: 1px solid blue;
+        padding-top: 0.5em;
+    }
+}

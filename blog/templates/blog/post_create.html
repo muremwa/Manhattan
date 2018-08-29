@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Edit post{% endblock title %}
+{% block style %}{{ form.media }}{% endblock style %}
+
+
+{% block content %}
+    <div style="margin-top: 3.5em" class="container" id="main">
+        <h1>Edit Post</h1>
+        <div>
+            {% if post %}
+                {% if user.profile.id == post.author.id %}
+                    {% include "blog/form_template.html" %}
+                {% else %}
+                    {% include "blog/post_warning.html" %}
+                    <style type="text/css">
+                        .bottom {
+                            bottom: 0;
+                            position: absolute;
+                        }
+                    </style>
+                    <script type="text/javascript">
+                        document.getElementsByTagName("footer")[0].classList.add("bottom");
+                    </script>
+                {% endif %}
+            {% else %}
+                {% include "blog/form_template.html" %}
+            {% endif %}
+        </div>
+        
+    </div>
+{% endblock content %}

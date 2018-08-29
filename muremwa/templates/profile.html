@@ -43,7 +43,7 @@
                                 <h3><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></h3> 
                                 <span class="text-dark">by</span>
                                 <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a>
-                            <p>{{ post.lead_text|truncatechars:90 }}<a href="{% url 'post' post.id %}">read post</a></p>
+                            <p>{{ post.lead_text|truncatechars:90 }}<a href="{% url 'blog:post' post.id %}">read post</a></p>
                             <span>posted {{post.date }}</span>
                         </div>
                     </div>
@@ -68,8 +68,14 @@
                             </div>
                             <div class="col-sm-9">
                                     <h3><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></h3> 
-                                    <p>{{ post.lead_text|truncatechars:90 }}<a href="{% url 'post' post.id %}">read post</a></p>
+                                    <p>{{ post.lead_text|truncatechars:90 }}<a href="{% url 'blog:post' post.id %}">read post</a></p>
                                 <span>posted {{post.date }}</span>
+                                {% if user.profile == post.author %}
+                                <div>
+                                    <a class="col-sm-3 btn btn-outline-primary" href="{% url 'blog:edit_post' post.id %}">Edit post</a>
+                                    <a class="col-sm-3 btn btn-outline-danger" href="{% url 'blog:delete_post' post.id %}">Delete post</a>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}

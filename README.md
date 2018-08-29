@@ -16,6 +16,8 @@ __The features I have been able to incoparate include;__
 * All posts
 * Each post
     * *include commenting with ajax(Still in **Beta**).*
+    * Now each post can have it's content in MarkDown(Enabled by **Django-pagedown**, **django-markdown-deux**, **markedJS**)
+    * Author have specific pages to create and edit __only__ thier content, else an error message appears on the screen.
 * All Tags.
 * Each tag.
 * Can integrate media files
@@ -28,6 +30,9 @@ __The features I have been able to incoparate include;__
 >**Please help me improve it**
 ## Things to improve
 1. ~~The comment section will only show one new comment each time~~ ___fixed___
+2. A way for users to recover thier passords.
+3. A way for a user to **edit** or **delete** thier comment.
+4. Commenting using **files**.
 
 ## Contacts
 >Email - danmburu254@gmail.com  
