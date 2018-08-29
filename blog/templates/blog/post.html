@@ -25,7 +25,7 @@
                 <p class="lead">{{ post.lead_text }}</p>
                 <hr>
                 {% if post.content %}
-                <div class="">{{ post.get_marked_content }}</div>
+                <div class="marked-content">{{ post.content }}</div>
                 {% endif %}
                 <div>
                     {% for entry in entries %}

@@ -3,8 +3,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.safestring import mark_safe
-from markdown_deux import markdown
 
 
 # Profile model
@@ -67,9 +65,6 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('blog:post', args=[str(self.id)])
 
-    # markdown for content
-    def get_marked_content(self):
-        return mark_safe(markdown(self.content))
 
     class Meta:
         ordering = ['-date']
