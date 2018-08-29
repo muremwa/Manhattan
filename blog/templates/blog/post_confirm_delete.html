@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm delete{% endblock title %}
+
+{% block content %}
+    <div style="margin-top: 4em;">
+        {% if user.profile.id == post.author.id %}
+            <h2 style="margin-bottom: 1em;";>Delete "{{ post.name }}"</h2>
+            <span style="margin-top: 2em;" class="alert alert-danger">Are you sure you want to delete {{ post.name }}?</span>
+            <hr>
+            <form style="margin-top: 2em;" method="post" action="">
+                {% csrf_token %}
+                <input type="submit" action="" value="Yes, Delete" class="btn btn-danger">
+                <a href="{% url 'blog:post' post.id %}" class="btn btn-primary">Cancel</a>
+            </form>
+        {% else %}
+            {% include "blog/post_warning.html" %}
+        {% endif %}
+    </div>
+    <style type="text/css">
+        .bottom {
+            bottom: 0;
+            position: absolute;
+        }
+    </style>
+    <script type="text/javascript">
+        document.getElementsByTagName("footer")[0].classList.add("bottom");
+    </script>
+{% endblock content %}

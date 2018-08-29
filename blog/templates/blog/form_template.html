@@ -1,0 +1,37 @@
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {% if field.help_text %}
+           <div><span class="lead text-primary">{{ field.help_text }}</span></div>
+        {% endif %}
+        {{ field }}
+        <hr>
+    </div>
+    {% endfor %}
+    <div class="form-group">
+        <button class="btn btn-primary">Submit</button> 
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    function formControlAdd(name){
+        var fields = document.getElementsByTagName(name);
+
+        for(field in fields){
+            try {
+                fields[field].classList.add("form-control");
+            } catch (err){
+                console.log(err)
+            }
+        }
+    }
+
+    var tags = ["input", "textarea", "select"]
+
+    for(var x = 0; x < tags.length; x++){
+        formControlAdd(tags[x]);
+    }
+</script>

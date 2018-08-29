@@ -25,7 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # local apps
     'blog.apps.BlogConfig',
+
+    # 3rd party
+    'pagedown',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [
@@ -111,6 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/others')
 
 LOGIN_REDIRECT_URL = '/profile'
 

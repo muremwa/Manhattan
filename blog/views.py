@@ -2,10 +2,13 @@ from django.shortcuts import render, get_object_or_404
 from .models import Post, Tag, Profile, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from .forms import CommentForm, CommentImageForm
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from .forms import CommentForm, PostForm
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
-from django.views import generic, View
+from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 # all blogs
 def index(request):
@@ -152,3 +155,28 @@ def all_comments(request):
         response['results'] = 'Unexpected error from the server'
 
     return JsonResponse(response)
+
+
+# create new posts
+class PostCreate(PermissionRequiredMixin, CreateView):
+    form_class = PostForm
+    permission_required = "blog.add_post"
+    template_name = "blog/post_create.html"
+
+    # adding a user
+    def form_valid(self, form):
+        form.instance.author = self.request.user.profile
+        return super(PostCreate, self).form_valid(form)
+
+
+class PostEdit(PermissionRequiredMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    permission_required = "blog.add_post"
+    template_name = "blog/post_create.html"
+
+
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    model = Post
+    permission_required = "blog.add_post"
+    success_url = reverse_lazy("profile")

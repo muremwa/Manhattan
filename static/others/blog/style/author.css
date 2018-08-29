@@ -1,0 +1,31 @@
+#main {
+    margin-top: 5em;
+}
+
+#more-posts ul {
+    list-style-type: none;
+}
+
+#more-posts ul {
+    list-style-type: none;
+}
+
+#more-posts-body {
+    padding-left: 0;
+    transition: 0.3s;    
+}
+
+#more-posts-body {
+    padding-left: 0;
+}
+
+#fullname, #bio, #date-joined, #author-image, #none {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    padding-bottom: 30px;
+    padding: 2em;
+}
+
+#fullname:hover, #bio:hover, #date-joined:hover, #more-posts-body:hover, #none:hover {
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.6);
+}

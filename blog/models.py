@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.safestring import mark_safe
+from markdown_deux import markdown
 
 
 # Profile model
@@ -23,7 +25,7 @@ class Profile(models.Model):
 
     # get to individual person
     def get_absolute_url(self):
-        return reverse('user', args=[str(self.id)])
+        return reverse('blog:user', args=[str(self.id)])
 
     def __str__(self):
         return self.writer_name
@@ -37,7 +39,7 @@ class Tag(models.Model):
 
     # get to individual tag
     def get_absolute_url(self):
-        return reverse("tag-detail", args=[str(self.name)])
+        return reverse("blog:tag-detail", args=[str(self.name)])
 
     def __str__(self):
         return self.name
@@ -48,11 +50,13 @@ class Tag(models.Model):
 
 # Blog post model
 class Post(models.Model):
-    name = models.CharField(max_length=50, null=False, unique=True)
-    date = models.DateTimeField(null=False)
+    name = models.CharField(max_length=50, null=False, unique=True, help_text="Give a name that attracts")
+    date = models.DateTimeField(null=False, auto_now_add=True)
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
-    lead_text = models.TextField(null=True)
-    image = models.FileField(null=True)
+    lead_text = models.TextField(null=True, help_text="Shall appear on index page")
+    image = models.FileField(null=True, blank=True)
+    image_caption = models.CharField(max_length=100, null=True, blank=True, help_text="Describe the image")
+    content = models.TextField(null=True, blank=True, help_text="use MarkDown")
     tags = models.ManyToManyField(Tag, help_text="Select as many as possible")
     likes = models.ManyToManyField(User, blank=True)
 
@@ -61,13 +65,18 @@ class Post(models.Model):
 
     # get to individual post
     def get_absolute_url(self):
-        return reverse('post', args=[str(self.id)])
+        return reverse('blog:post', args=[str(self.id)])
+
+    # markdown for content
+    def get_marked_content(self):
+        return mark_safe(markdown(self.content))
 
     class Meta:
         ordering = ['-date']
+        permissions = (('can_create_posts', 'can_manipulate_post'),)
 
 
-# entry for a post, one post can have many models
+# entry for a post, one post can have many entries
 class Entry(models.Model):
     title = models.CharField(max_length=400, null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
