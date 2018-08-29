@@ -48,3 +48,5 @@ __The features I have been able to incoparate include;__
 * Backend
     1. [Python 3.6.3](https://python.org) ([***Django 2.0***](https://djangoproject.com  "Django website"))
     2. [SQLite](https://www.sqlite.org "SQLite website")
+
+> Requires [Django-pagedown](https://githu.com/timmymahony/django-pagedown)
