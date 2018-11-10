@@ -11,48 +11,27 @@ for (input in inputs) {
 $(document).on('submit', '#comment-form', function(e){
     e.preventDefault();
     document.querySelector("#spin").classList.add("spinner");
+    var commentUrl = this.attributes['data-comment'].value;
+    console.log(commentUrl);
 
     $.ajax({
         type: 'POST',
         url: commentUrl,
-        // dataType: 'json',
         data: {
             comment:$("#id_comment_text").val(),
-            id: pk,
-            // image:document.getElementById("id_comment_image").files[0],
             csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()
         },
-        success: function(){
+        success: function(response){
             document.querySelector("#spin").classList.remove("spinner");
-            fetchLatestComment();
+            newComment(response['user'], response['text'], response['time']);
+            document.querySelector("#id_comment_text").value = "";
         },
         error: function(){
             document.querySelector("#spin").classList.remove("spinner");
-            commentError("Could not comment. Refresh the page and try again")
+            commentError("Could not comment. Refresh the page and try again");
         }
     })
 });
-
-
-// new comment is fetched!
-function fetchLatestComment(){
-    // give post id, 
-    $.ajax({
-        type:"GET",
-        url: allCommentsUrl,
-        dataType:'json',
-        data:{
-            id: pk,
-            csrfmiddlewaretoken:token
-        },
-        success: function (json) {
-            newComment(currentUserName, json.results[0]['comment_text'], json.results[0]['time']);
-        },
-        error: function (json) {
-            commentError("Could not load new comments, please refresh the page")
-        }
-    })
-}
 
 
 var count = 0;
@@ -136,8 +115,6 @@ $(document).ready( function () {
     $(".marked-content").each( function () {
         var content = $(this).text();
         var markedContent = marked(content);
-        console.log(content);
-        console.log(markedContent);
         $(this).html(markedContent);
     })
 })

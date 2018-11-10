@@ -3,7 +3,7 @@
 
     {% if user.is_authenticated %}
     <!-- Comment entry -->
-        <form class="form-inline" id="comment-form" style="padding-bottom: 10px;" action="" method="post" enctype="multipart/form-data">
+        <form data-comment="{% url 'blog:post_comment' post.id %}" class="form-inline" id="comment-form" style="padding-bottom: 10px;" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group col-sm-8">
                 {% for field in comment_form %}{{ field }}{% endfor %}
@@ -12,17 +12,12 @@
         </form>
         <div id="spin" class="container col-sm-5">
         </div>
-        <script type="text/javascript">
-            var pk = "{{ post.id }}";
-            var commentUrl = "{% url 'blog:post_comment' %}?next={% url 'blog:post' post.id %}";
-        </script>
     {% else %}
         <a href="{% url 'login' %}?next={% url 'blog:post' post.id %}" class="btn btn-success">Log in to comment</a>
     {% endif %}
 
 
     <!-- All comments -->
-    <script type="text/javascript">var allCommentsUrl = "{% url 'blog:all-comments' %}"; var token = "{% csrf_token %}";</script>
     {% if comments %}
         {% include "blog/new-comment.html" %}
         <hr>

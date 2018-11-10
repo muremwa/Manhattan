@@ -11,6 +11,7 @@ class Profile(models.Model):
     writer_name = models.CharField(max_length=100, default="to be added")
     bio = models.TextField()
     image = models.FileField(null=True, default="default.png")
+    objects = models.Manager()
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -34,6 +35,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=200, null=False)
     description = models.TextField(null=False)
     image = models.FileField(null=True)
+    objects = models.Manager()
 
     # get to individual tag
     def get_absolute_url(self):
@@ -57,6 +59,7 @@ class Post(models.Model):
     content = models.TextField(null=True, blank=True, help_text="use MarkDown")
     tags = models.ManyToManyField(Tag, help_text="Select as many as possible")
     likes = models.ManyToManyField(User, blank=True)
+    objects = models.Manager()
 
     def __str__(self):
         return "{} by {}".format(self.name, self.author)
@@ -64,7 +67,6 @@ class Post(models.Model):
     # get to individual post
     def get_absolute_url(self):
         return reverse('blog:post', args=[str(self.id)])
-
 
     class Meta:
         ordering = ['-date']
@@ -92,6 +94,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     time = models.DateTimeField(null=False, auto_now=True)
+    objects = models.Manager()
 
     def __str__(self):
         return "Comment by {} on {}".format(self.user, self.post)

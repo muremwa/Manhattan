@@ -1,16 +1,22 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Tag, Profile, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from .forms import CommentForm, PostForm
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-# all blogs
+from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView, Response
+
+from .forms import CommentForm, PostForm
+from .models import Post, Tag, Profile, Comment
+from .serializers import PostsSerializer, PostSerializer
+
+
+# all blog posts
 def index(request):
     posts = Post.objects.all()
     the_query = request.GET.get("query")
@@ -33,38 +39,38 @@ def index(request):
 
 
 # each blog post
-def post(request, id):
-    post = get_object_or_404(Post, pk=id)
-    tags = post.tags.all()
+def post(request, pk):
+    the_post = get_object_or_404(Post, pk=pk)
+    tags = the_post.tags.all()
 
     # get the one with most linked posts
     count = []
     for tag_obj in tags:
         count.append(Post.objects.filter(tags__name__startswith=tag_obj).count())
 
-    tag = post.tags.all()[count.index(max(count))]
-    others = Post.objects.filter(tags__name__startswith=tag)
-    entries = post.entry_set.all()
+    the_tag = the_post.tags.all()[count.index(max(count))]
+    others = Post.objects.filter(tags__name__startswith=the_tag)
+    entries = the_post.entry_set.all()
 
     # comments
-    comments = post.comment_set.all()
+    comments = the_post.comment_set.all()
 
     comment_form = CommentForm()
 
     return render(request, 'blog/post.html', {
-        'post': post,
+        'post': the_post,
         'entries': entries,
         'others': others,
         'tags': tags,
-        'relation': tag,
+        'relation': the_tag,
         'comments': comments,
         'comment_form': comment_form,
     })
 
 
 # for author
-def author(request, id):
-    the_author = get_object_or_404(Profile, pk=id)
+def author(request, pk):
+    the_author = get_object_or_404(Profile, pk=pk)
     posts = the_author.post_set.all()
 
     return render(request, 'blog/author.html', {
@@ -89,13 +95,13 @@ def tag(request, tag_name):
 
     # related tags
     rel_tags = []
-    for post in posts:
-        tags = post.tags.all()
+    for post_ in posts:
+        tags = post_.tags.all()
         # add all rel tags
-        for tag in tags: 
-            if tag != the_tag:
-                if tag not in rel_tags:
-                    rel_tags.append(tag)
+        for the_tag in tags:
+            if the_tag != the_tag:
+                if the_tag not in rel_tags:
+                    rel_tags.append(the_tag)
 
     return render(request, 'blog/tag.html', {
         'tag': the_tag,
@@ -108,12 +114,12 @@ def search(request):
     query = request.GET.get("q",)
 
     if query:
-        qset = (
+        q_set = (
             Q(name__contains=query) |
             Q(author__writer_name__contains=query) |
             Q(tags__name__contains=query)
         )
-        results = Post.objects.filter(qset).distinct()
+        results = Post.objects.filter(q_set).distinct()
 
     else:
         results = []
@@ -126,35 +132,21 @@ def search(request):
 
 # ajax comment
 @login_required
-def comment(request):
-    post = get_object_or_404(Post, pk=request.POST.get('id'))
+def comment(request, post_id):
+    the_post = get_object_or_404(Post, pk=post_id)
 
     if request.method == "POST":
-        comment = request.POST['comment']
+        comment_text = request.POST['comment']
         user = request.user.profile
 
-        Comment.objects.create(
-            comment_text=comment,
-            post=post,
+        new_comment = Comment(
+            comment_text=comment_text,
+            post=the_post,
             user=user
         )
-        return HttpResponse(" ")
-
-
-# Ajax fetch comments
-def all_comments(request):
-    the_post = get_object_or_404(Post, pk=request.GET.get('id'))
-    comments = the_post.comment_set.filter(user=request.user.profile).values('comment_text', 'post', 'user', 'time')[:1]
-    response = {}
-
-    try:
-        response['message'] = 'Success from the server!'
-        response['results'] = list(comments)
-    except:
-        response['message'] = 'Failed from the server'
-        response['results'] = 'Unexpected error from the server'
-
-    return JsonResponse(response)
+        new_comment.save()
+        response = {"user": new_comment.user.user.username, "text": new_comment.comment_text, "time": new_comment.time}
+        return JsonResponse(response)
 
 
 # create new posts
@@ -180,3 +172,17 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     permission_required = "blog.add_post"
     success_url = reverse_lazy("profile")
+
+
+# APIs
+class PostApiList(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostsSerializer
+
+
+class PostApiDetail(APIView):
+    @staticmethod
+    def get(request, **kwargs):
+        the_post = get_object_or_404(Post, pk=kwargs['pk'])
+        data = PostSerializer(the_post).data
+        return Response(data)

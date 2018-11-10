@@ -8,7 +8,7 @@ urlpatterns = [
     path('', views.index, name="index"),
 
     # /blog/post4/
-    path('post<int:id>/', views.post, name="post"),
+    path('post<int:pk>/', views.post, name="post"),
 
     # /blog/new/post/
     path("new/post/", views.PostCreate.as_view(), name="create_post"),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('search/', views.search, name="search"),
 
     # /blog/author4/
-    path('author<int:id>/', views.author, name="user"),
+    path('author<int:pk>/', views.author, name="user"),
 
     # /blog/tags/
     path('tags/', views.TagsView.as_view(), name="tags"),
@@ -32,9 +32,6 @@ urlpatterns = [
     path('tags/<tag_name>/', views.tag, name="tag-detail"),
 
     # /blog/ajax/comment
-    path('ajax/comment/', views.comment, name="post_comment"),
-
-    # /blog/ajax/comments
-    path('ajax/comments/', views.all_comments, name="all-comments"),
+    path('ajax/comment/<int:post_id>/', views.comment, name="post_comment"),
 
 ]
