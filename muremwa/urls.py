@@ -4,6 +4,7 @@ from django.views.generic import RedirectView   # redirect on to the blog's app
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from blog.views import PostApiList, PostApiDetail
 
 urlpatterns = [
     # admin site
@@ -26,6 +27,12 @@ urlpatterns = [
 
     # ajax validation
     path('ajax/validate_username', views.validate_username, name="validate_username"),
+
+    # api/all-posts/
+    path('api/all-posts/', PostApiList.as_view(), name="api-list"),
+
+    # api/post/23/
+    path('api/post/<int:pk>/', PostApiDetail.as_view(), name="api-post"),
 ]
 
 if settings.DEBUG:
