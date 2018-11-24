@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView, Response
+import re
 
 from .forms import CommentForm, PostForm
 from .models import Post, Tag, Profile, Comment
@@ -182,7 +183,12 @@ class PostApiList(ListAPIView):
 
 class PostApiDetail(APIView):
     @staticmethod
-    def get(request, **kwargs):
+    def clean_date(date):
+        match_date = re.findall(r'\d{4}\-\d{2}\-\d{2}', date, re.I | re.M)
+        return match_date[0]
+
+    def get(self, request, **kwargs):
         the_post = get_object_or_404(Post, pk=kwargs['pk'])
         data = PostSerializer(the_post).data
+        data['date'] = self.clean_date(data['date'])
         return Response(data)
