@@ -41,9 +41,7 @@
                       <a class="dropdown-item" href="#">Conduct</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% block search %}{% endblock search %}" href="{% url 'blog:search' %}">Search</a>
-                </li>
+                
                 <div> 
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
@@ -73,6 +71,11 @@
                         </li>
                     {% endif %}    
                 </div>
+                <form method="GET" action="{% url 'blog:search'  %}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name="q" value="{{ request.GET.q }}" placeholder="Search for blogs" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                
               </ul>
             </div>
         </nav>
