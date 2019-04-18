@@ -6,7 +6,7 @@
         <form data-comment="{% url 'blog:post_comment' post.id %}" class="form-inline" id="comment-form" style="padding-bottom: 10px;" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group col-sm-8">
-                {% for field in comment_form %}{{ field }}{% endfor %}
+                {{ comment_form.comment_text }}
             </div>
             <button style="margin-left: 10px;" class="btn btn-success" value="{{ post.id }}" type="submit">Comment</button>
         </form>

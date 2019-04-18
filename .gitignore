@@ -2,3 +2,4 @@
 *.xml
 *.iml
 blog/migrations/*
+db.sqlite3

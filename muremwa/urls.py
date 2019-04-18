@@ -25,6 +25,12 @@ urlpatterns = [
     # profile
     path('profile/', views.profile, name="profile"),
 
+    # profile/change-image/
+    path('profile/change-image/', views.profile_image, name='change-image'),
+
+    # profile/edit/
+    path('profile/edit/', views.edit_user_details, name='edit-profile'),
+
     # ajax validation
     path('ajax/validate_username', views.validate_username, name="validate_username"),
 

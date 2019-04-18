@@ -8,7 +8,7 @@ from django.dispatch import receiver
 # Profile model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    writer_name = models.CharField(max_length=100, default="to be added")
+    writer_name = models.CharField(max_length=100, null=True, blank=True, unique=True)
     bio = models.TextField()
     image = models.FileField(null=True, default="default.png")
     objects = models.Manager()

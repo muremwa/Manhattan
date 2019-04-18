@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView, Response
 import re
+from datetime import datetime
 
 from .forms import CommentForm, PostForm
 from .models import Post, Tag, Profile, Comment
@@ -146,7 +147,11 @@ def comment(request, post_id):
             user=user
         )
         new_comment.save()
-        response = {"user": new_comment.user.user.username, "text": new_comment.comment_text, "time": new_comment.time}
+        response = {
+            'user': new_comment.user.user.username,
+            'text': new_comment.comment_text,
+            'time': new_comment.time.ctime(),
+        }
         return JsonResponse(response)
 
 

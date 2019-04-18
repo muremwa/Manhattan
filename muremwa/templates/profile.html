@@ -12,7 +12,19 @@
         <div class="row">
             <div class="col-md-4">
                 <div>
+                    {% if user.profile.image %}
                     <img id="profile-pic" class="card-img" alt="{{ user }}" src="{{ user.profile.image.url }}"/>
+                    {% endif %}
+                </div>
+                <div class="image-new">
+                    <h4 class="text-center">Change profile picture</h4>
+                    <form action="{% url 'change-image' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="file" accept="image/*" name="profile" required class="form-control">
+                        </div>
+                        <input type="submit" value="upload" class="btn btn-primary">
+                    </form>
                 </div>
             </div>
             <div class="col-md-7">
@@ -27,6 +39,10 @@
                 <hr>
                 <h3>Date joined</h3>
                 <span>{{ user.date_joined }}</span>
+
+                <div style="margin-top: 2em;">
+                    <a href="{% url 'edit-profile' %}" class="btn btn-dark">Edit your details</a>
+                </div>
             </div>
         </div>
         <hr>
