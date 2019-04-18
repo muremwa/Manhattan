@@ -17,3 +17,20 @@
     margin-left: 5em;
     padding: 0.3em;
 }
+
+.form-profile {
+    margin: auto;
+    width: 50%;
+}
+
+@media screen and ( max-width: 767px){
+    .form-profile {
+        width: 80%;
+    }
+}
+
+@media screen and ( max-width: 579px){
+    .form-profile {
+        width: 100%;
+    }
+}

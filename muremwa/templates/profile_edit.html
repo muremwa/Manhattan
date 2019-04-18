@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ user }} | edit details{% endblock title %}
+{% block style %}<link href="{% static 'style/profile.css' %}" type="text/css" media="screen" rel="stylesheet">{% endblock style %}
+
+{% block profile %}active{% endblock profile %}
+
+{% block content %}
+<div>
+	<div id="main" class="container">
+		<h2 class="text-center">Edit your details</h2>
+
+		<form action="" method="post" class="form-profile" autocomplete="off">
+			{% csrf_token %}
+
+			{% for field in form %}
+			{% if form.errors %}
+				<div class="alert alert-info">
+					Correct the error below!
+				</div>
+			{% endif %}
+			<div class="form-group">
+				{% if field.errors %}
+					{% for error in field.errors %}
+						<div class="alert alert-info">{{error}}</div>
+					{% endfor %}
+				{% endif %}
+				<label>{{field.label}}</label>
+				{{ field }}
+			</div>
+			{% endfor %}
+			<input type="submit" value="edit" class="btn btn-primary">
+		</form>
+
+		<script type="text/javascript">
+			var ins = document.getElementsByTagName('input');
+			for (let i=0; i<ins.length; i++){
+				if (ins[i].type == 'text' || ins[i].type == 'email') {
+					ins[i].classList.add('form-control');
+				}
+			}
+			document.getElementsByTagName("textarea")[0].classList.add('form-control');
+		</script>
+	</div>
+</div>
+
+{% endblock content %}

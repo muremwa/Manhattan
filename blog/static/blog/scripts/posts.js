@@ -1,12 +1,9 @@
-var inputs = document.getElementsByTagName("input");
+var commentInput = document.getElementById("id_comment_text");
+commentInput.classList.add("form-control");
+commentInput.style.width = "100%";
+commentInput.style.height = "8em";
+commentInput.placeholder = "Say something about this post";
 
-for (input in inputs) {
-    if (inputs[input].type == "text" || inputs[input].type == "file") {
-        inputs[input].classList.add("form-control");
-        inputs[input].style.width = "100%";
-        inputs[input].placeholder = "Say something about this post";
-    }
-}
 
 $(document).on('submit', '#comment-form', function(e){
     e.preventDefault();

@@ -4,11 +4,8 @@ from pagedown.widgets import PagedownWidget
 
 
 # comment form
-class CommentForm(forms.ModelForm):
-
-    class Meta:
-        model = Comment
-        fields = ('comment_text',)
+class CommentForm(forms.Form):
+    comment_text = forms.CharField(widget=forms.Textarea)
 
 
 # comments image form
