@@ -147,10 +147,32 @@ def comment(request, post_id):
             user=user
         )
         new_comment.save()
+        time = new_comment.time.strftime("%b %d, %Y, %H:%M %p")
+        time = time.split()
+
+        # make the time with timezone
+        hour = int(time[-2].split(":")[0])
+        hour = hour + 3
+        if hour > 23:
+            # incase the time passes to the next day
+            hour -= 12
+            time[-1] = "AM"
+            day = int(time[1].split(",")[0])
+            day += 1
+            time[1] = str(day) + ","
+
+        time[-2] = str(hour) + ":" + time[-2][-2:]
+
+        # point in the a.m. or p.m.
+        if time[-1] == "AM":
+            time[-1] = "a.m."
+        else:
+            time[-1] = "p.m."
+
         response = {
             'user': new_comment.user.user.username,
             'text': new_comment.comment_text,
-            'time': new_comment.time.ctime(),
+            'time': " ".join(time),
         }
         return JsonResponse(response)
 
