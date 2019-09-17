@@ -182,10 +182,12 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
 
 # APIs
 class PostApiList(ListAPIView):
+    # returns all blog posts
     queryset = Post.objects.all()
     serializer_class = PostsSerializer
 
 
+# returns a specific blog post
 class PostApiDetail(APIView):
     @staticmethod
     def clean_date(date):
