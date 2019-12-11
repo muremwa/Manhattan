@@ -71,6 +71,9 @@ h5 {
     margin: 2em;
 }
 
+#delete-comment:hover {
+    cursor: pointer;
+}
 
 #user-img img {
     width: 3em;

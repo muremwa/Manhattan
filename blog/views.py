@@ -177,6 +177,18 @@ def comment(request, post_id):
         return JsonResponse(response)
 
 
+# AJAX delete comment
+def delete_comment(request, comment_id):
+    comment = Comment.objects.get(pk=comment_id)
+
+    if request.user == comment.user.user or request.user == comment.post.author.user:
+        comment.delete()
+
+    return JsonResponse({
+        'success': True,
+        })
+
+
 # create new posts
 class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm

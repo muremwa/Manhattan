@@ -55,7 +55,7 @@ function newComment (user, text, time) {
 
     // top section
     var commentZone = document.createElement("p");
-    commentZone.className = "col-sm-11"; // size
+    commentZone.className = "col-sm-8"; // size
     var userPlace = document.createElement("strong");   // bold divs
     var timePlace = document.createElement("strong");   // bold divs
     var topText = document.createTextNode(" Posted ");  // static section
@@ -71,6 +71,7 @@ function newComment (user, text, time) {
     commentZone.appendChild(lineBreak);
     commentZone.appendChild(commentText);
     commentDiv.appendChild(commentZone);
+
 
     // add sec to page
     if (count == 0) {
@@ -113,5 +114,35 @@ $(document).ready( function () {
         var content = $(this).text();
         var markedContent = marked(content);
         $(this).html(markedContent);
-    })
-})
+    });
+});
+
+var commentSection;
+
+// Deleting comments
+$(document).on("click", "#delete-comment", function (e) {
+    var delete_url = this.dataset["deleteUrl"];
+    var delete_token = this.children.csrfmiddlewaretoken.value;
+    commentSection = this.parentElement.parentElement;
+
+    $.ajax({
+        type: "POST",
+        url: delete_url,
+        data: {
+            csrfmiddlewaretoken: delete_token,
+        },
+        success: function (response) {
+            if (response['success'] == true){
+                var message = document.createElement('h2');
+                message.innerText = "You deleted this comment";
+                commentSection.innerHTML = "";
+                commentSection.appendChild(message)
+                message.style.margin = 'auto';
+            };
+        },
+        error: function (res_error) {
+            console.log("An error occured", res_error);
+        },
+        
+    });
+});

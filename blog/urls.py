@@ -31,7 +31,10 @@ urlpatterns = [
     # /blog/tags/movies
     path('tags/<tag_name>/', views.tag, name="tag-detail"),
 
-    # /blog/ajax/comment
+    # /blog/ajax/comment/23
     path('ajax/comment/<int:post_id>/', views.comment, name="post_comment"),
+
+    # /blog/ajax/delete_comment/43/
+    path('ajax/delete_comment/<int:comment_id>/', views.delete_comment, name="delete_comment"),
 
 ]

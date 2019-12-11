@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <div id="comments" class="container col-md-10 alert-light">
     <h4>Comments <small class="text-danger"><i>trolling comments will be deleted!</i></small></h4>
 
@@ -26,10 +28,18 @@
                 <div id="user-img" class="col-sm-1">
                     <img src="{{ comment.user.image.url }}" alt="image of {{ comment.user.user }}">
                 </div>
-                <div class="col-sm-11">
+                <div class="col-sm-8 tar">
                     <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
                     <p>{{ comment.comment_text }}</p>
                 </div>
+                {% if comment.user == user.profile or post.author == user.profile %}
+                <div class="col-sm-3 text-center">
+                    <span id="delete-comment" data-delete-url="{% url 'blog:delete_comment' comment.pk %}">
+                        {% csrf_token %}
+                        <img src="{% static 'svg/delete.svg' %}">
+                    </span>
+                </div>
+                {% endif %}
             </div>
         
             <hr>
