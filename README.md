@@ -1,13 +1,11 @@
 # Blog App
 __Made with Python__
 
->pardon the "excess" details...I need to practice my markdown!
-
 This is an blogs app that am creating to practice my django skills
 
 ## Table of contents
 * [Features](#features)
-* [Things i would like to learn](#things-to-improve)
+* [Things I would like to learn](#things-to-improve)
 * [Contact Me](#contacts)
 * [Tech Stack](#made-with)
 
@@ -15,7 +13,7 @@ This is an blogs app that am creating to practice my django skills
 __The features I have been able to incoparate include;__
 * All posts
 * Each post
-    * *include commenting with ajax(Still in **Beta**).*
+    * Include commenting with ajax.
     * Now each post can have it's content in MarkDown(Enabled by **Django-pagedown**, **django-markdown-deux**, **markedJS**)
     * Author have specific pages to create and edit __only__ thier content, else an error message appears on the screen.
 * All Tags.
@@ -27,12 +25,10 @@ __The features I have been able to incoparate include;__
 * Bootstrap.
 
 
->**Please help me improve it**
-## Things to improve
-1. ~~The comment section will only show one new comment each time~~ ___fixed___
-2. A way for users to recover thier passords.
-3. A way for a user to **edit** or **delete** thier comment.
-4. Commenting using **files**.
+## Things to come
+1. A way for users to recover thier passords.
+2. A way for a user to **edit** thier comment.
+3. Commenting using **images**.
 
 ## Contacts
 >Email - danmburu254@gmail.com  
