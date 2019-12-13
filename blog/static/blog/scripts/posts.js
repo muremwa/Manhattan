@@ -9,15 +9,15 @@ $(document).on('submit', '#comment-form', function(e){
     e.preventDefault();
     document.querySelector("#spin").classList.add("spinner");
     var commentUrl = this.attributes['data-comment'].value;
-    console.log(commentUrl);
+    formData = new FormData(this);
 
     $.ajax({
         type: 'POST',
         url: commentUrl,
-        data: {
-            comment:$("#id_comment_text").val(),
-            csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()
-        },
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
         success: function(response){
             document.querySelector("#spin").classList.remove("spinner");
             newComment(response['user'], response['text'], response['time']);

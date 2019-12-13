@@ -138,11 +138,18 @@ def comment(request, post_id):
     the_post = get_object_or_404(Post, pk=post_id)
 
     if request.method == "POST":
-        comment_text = request.POST['comment']
+        print(request.FILES)
+        print(request.POST)
+        comment_text = request.POST['comment_text']
+        try:
+            comment_image = request.FILES['comment_image']
+        except KeyError:
+            comment_image = None
         user = request.user.profile
 
         new_comment = Comment(
             comment_text=comment_text,
+            comment_image=comment_image,
             post=the_post,
             user=user
         )
