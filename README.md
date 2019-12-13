@@ -28,7 +28,6 @@ __The features I have been able to incoparate include;__
 ## Things to come
 1. A way for users to recover thier passords.
 2. A way for a user to **edit** thier comment.
-3. Commenting using **images**.
 
 ## Contacts
 >Email - danmburu254@gmail.com  
