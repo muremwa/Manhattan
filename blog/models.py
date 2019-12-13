@@ -96,8 +96,12 @@ class Comment(models.Model):
     time = models.DateTimeField(null=False, auto_now=True)
     objects = models.Manager()
 
+    class Meta:
+        ordering = ['-time']
+
     def __str__(self):
         return "Comment by {} on {}".format(self.user, self.post)
 
-    class Meta:
-        ordering = ['-time']
+    def delete(self, *args, **kwargs):
+        self.comment_image.delete()
+        return super().delete()
