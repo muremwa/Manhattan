@@ -90,14 +90,18 @@ class Entry(models.Model):
 # comments on post
 class Comment(models.Model):
     comment_text = models.CharField(null=False, max_length=140)
-    comment_image = models.FileField(null=True, blank=True)
+    comment_image = models.ImageField(null=True, blank=True, upload_to="comments/")
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     time = models.DateTimeField(null=False, auto_now=True)
     objects = models.Manager()
 
+    class Meta:
+        ordering = ['-time']
+
     def __str__(self):
         return "Comment by {} on {}".format(self.user, self.post)
 
-    class Meta:
-        ordering = ['-time']
+    def delete(self, *args, **kwargs):
+        self.comment_image.delete()
+        return super().delete()

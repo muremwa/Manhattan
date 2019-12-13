@@ -6,14 +6,7 @@ from pagedown.widgets import PagedownWidget
 # comment form
 class CommentForm(forms.Form):
     comment_text = forms.CharField(widget=forms.Textarea)
-
-
-# comments image form
-class CommentImageForm(forms.ModelForm):
-
-    class Meta:
-        model = Comment
-        fields = ('comment_image',)
+    comment_image = forms.ImageField(required=False, widget=forms.ClearableFileInput)
 
 
 # profile form

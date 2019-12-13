@@ -3,3 +3,4 @@
 *.iml
 blog/migrations/*
 db.sqlite3
+media/*

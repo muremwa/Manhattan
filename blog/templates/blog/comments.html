@@ -11,6 +11,11 @@
                 {{ comment_form.comment_text }}
             </div>
             <button style="margin-left: 10px;" class="btn btn-success" value="{{ post.id }}" type="submit">Comment</button>
+            {{ comment_form.comment_image }}
+            <script type="text/javascript">
+                document.getElementById('id_comment_image').style.display = "None";
+            </script>
+            <input type="button" value="Add an image" class="btn btn-primary" id="add-image">
         </form>
         <div id="spin" class="container col-sm-5">
         </div>
@@ -25,12 +30,19 @@
         <hr>
         {% for comment in comments %}
             <div class="row comment">
-                <div id="user-img" class="col-sm-1">
+                <div class="col-sm-1 user-img">
                     <img src="{{ comment.user.image.url }}" alt="image of {{ comment.user.user }}">
                 </div>
                 <div class="col-sm-8 tar">
                     <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
                     <p>{{ comment.comment_text }}</p>
+
+                    {# if there is a image in the comments #}
+                    {% if comment.comment_image %}
+                        <div class="comment-image-con">
+                            <img src="{{ comment.comment_image.url }}" class="comment-image" id="comment-image-{{ comment.pk}}">
+                        </div>
+                    {% endif %}
                 </div>
                 {% if comment.user == user.profile or post.author == user.profile %}
                 <div class="col-sm-3 text-center">

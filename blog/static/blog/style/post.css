@@ -75,13 +75,13 @@ h5 {
     cursor: pointer;
 }
 
-#user-img img {
+.user-img img {
     width: 3em;
     height: 3em;
     border-radius: 50%;
 }
 
-#user-img {
+.user-img {
     padding-left: 0;
 }
 
@@ -95,6 +95,14 @@ h5 {
 
 .comment_image {
     max-height: 10em;
+}
+
+.comment-image {
+    max-width: 20em;
+}
+
+#add-image {
+    margin: 2em;
 }
 
 #spin {
