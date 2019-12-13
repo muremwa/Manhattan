@@ -4,6 +4,10 @@ commentInput.style.width = "100%";
 commentInput.style.height = "8em";
 commentInput.placeholder = "Say something about this post";
 
+$(document).on('click', "#add-image", function(e) {
+    $("#id_comment_image").click();
+})
+
 
 $(document).on('submit', '#comment-form', function(e){
     e.preventDefault();
@@ -22,6 +26,7 @@ $(document).on('submit', '#comment-form', function(e){
             document.querySelector("#spin").classList.remove("spinner");
             newComment(response['user'], response['pk'], response['text'], response['time'], response['img']);
             document.querySelector("#id_comment_text").value = "";
+            document.querySelector("#id_comment_image").value = "";
         },
         error: function(){
             document.querySelector("#spin").classList.remove("spinner");

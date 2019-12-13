@@ -101,6 +101,10 @@ h5 {
     max-width: 20em;
 }
 
+#add-image {
+    margin: 2em;
+}
+
 #spin {
     min-height: 60px;
     margin-left: 30px;
