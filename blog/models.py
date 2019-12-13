@@ -90,7 +90,7 @@ class Entry(models.Model):
 # comments on post
 class Comment(models.Model):
     comment_text = models.CharField(null=False, max_length=140)
-    comment_image = models.FileField(null=True, blank=True)
+    comment_image = models.FileField(null=True, blank=True, upload_to="comments/")
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     time = models.DateTimeField(null=False, auto_now=True)

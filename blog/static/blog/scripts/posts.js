@@ -20,7 +20,7 @@ $(document).on('submit', '#comment-form', function(e){
         processData: false,
         success: function(response){
             document.querySelector("#spin").classList.remove("spinner");
-            newComment(response['user'], response['text'], response['time']);
+            newComment(response['user'], response['pk'], response['text'], response['time'], response['img']);
             document.querySelector("#id_comment_text").value = "";
         },
         error: function(){
@@ -33,7 +33,7 @@ $(document).on('submit', '#comment-form', function(e){
 
 var count = 0;
 
-function newComment (user, text, time) {
+function newComment (user, id, text, time, img) {
     // section to add new section
     var newCommentSection = document.getElementById("new-comments");
 
@@ -45,8 +45,7 @@ function newComment (user, text, time) {
     
     // image section
     var imageDiv = document.createElement("div");
-    imageDiv.className = "col-sm-1";       // size
-    imageDiv.id = "user-img";
+    imageDiv.className = "col-sm-1 user-img";       // size
     var imgSection = document.createElement("img");
     imgSection.src = userImageAddress; // add a source
     imgSection.alt = "image of " + user;  // adds an alternative to the image
@@ -71,6 +70,22 @@ function newComment (user, text, time) {
     commentZone.appendChild(lineBreak);
     commentZone.appendChild(commentText);
     commentDiv.appendChild(commentZone);
+
+
+    // Add an image if one was present
+    if (img.img){
+        var reader = new FileReader();
+        var imageCon = document.createElement("div");
+        imageCon.className = "comment-image-con";
+        var imageComment = document.createElement("img");
+        imageComment.src = img.img_url;
+        imageComment.className = "comment-image";
+        imageComment.id = "comment-image-" + id;
+        imageCon.appendChild(imageComment);
+        commentZone.appendChild(imageCon);
+    } else {
+        console.log("No image in the comment");
+    }
 
 
     // add sec to page

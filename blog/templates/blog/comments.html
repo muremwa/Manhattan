@@ -26,12 +26,19 @@
         <hr>
         {% for comment in comments %}
             <div class="row comment">
-                <div id="user-img" class="col-sm-1">
+                <div class="col-sm-1 user-img">
                     <img src="{{ comment.user.image.url }}" alt="image of {{ comment.user.user }}">
                 </div>
                 <div class="col-sm-8 tar">
                     <span><strong>{{ comment.user.user }}</strong> posted <strong class="dated">{{ comment.time }}</strong></span>
                     <p>{{ comment.comment_text }}</p>
+
+                    {# if there is a image in the comments #}
+                    {% if comment.comment_image %}
+                        <div class="comment-image-con">
+                            <img src="{{ comment.comment_image.url }}" class="comment-image" id="comment-image-{{ comment.pk}}">
+                        </div>
+                    {% endif %}
                 </div>
                 {% if comment.user == user.profile or post.author == user.profile %}
                 <div class="col-sm-3 text-center">

@@ -138,13 +138,13 @@ def comment(request, post_id):
     the_post = get_object_or_404(Post, pk=post_id)
 
     if request.method == "POST":
-        print(request.FILES)
-        print(request.POST)
         comment_text = request.POST['comment_text']
         try:
             comment_image = request.FILES['comment_image']
+            img = True
         except KeyError:
             comment_image = None
+            img = False
         user = request.user.profile
 
         new_comment = Comment(
@@ -176,10 +176,17 @@ def comment(request, post_id):
         else:
             time[-1] = "p.m."
 
+        image = {
+            'img': img,
+            'img_url': new_comment.comment_image.url,
+        }
+
         response = {
             'user': new_comment.user.user.username,
             'text': new_comment.comment_text,
             'time': " ".join(time),
+            'img': image,
+            'pk': new_comment.pk,
         }
         return JsonResponse(response)
 
