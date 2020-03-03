@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -162,7 +162,7 @@ def comment(request, post_id):
         hour = int(time[-2].split(":")[0])
         hour = hour + 3
         if hour > 23:
-            # incase the time passes to the next day
+            # in-case the time passes to the next day
             hour -= 12
             time[-1] = "AM"
             day = int(time[1].split(",")[0])
@@ -192,10 +192,10 @@ def comment(request, post_id):
 
 # AJAX delete comment
 def delete_comment(request, comment_id):
-    comment = Comment.objects.get(pk=comment_id)
+    comment_ = Comment.objects.get(pk=comment_id)
 
-    if request.user == comment.user.user or request.user == comment.post.author.user:
-        comment.delete()
+    if request.user == comment_.user.user or request.user == comment_.post.author.user:
+        comment_.delete()
 
     return JsonResponse({
         'success': True,
@@ -219,6 +219,13 @@ class PostEdit(PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     permission_required = "blog.add_post"
     template_name = "blog/post_create.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        if context.get('post', None).author.user != self.request.user:
+            raise Http404
+        return context
 
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
