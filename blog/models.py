@@ -27,7 +27,7 @@ class Profile(models.Model):
         return reverse('blog:user', args=[str(self.id)])
 
     def __str__(self):
-        return self.writer_name
+        return str(self.writer_name)
 
 
 # Tags model
