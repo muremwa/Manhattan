@@ -12,3 +12,6 @@ $(window).scroll(function(){
 var today = new Date();
 var year = today.getFullYear();
 document.getElementById("this-year").innerHTML = year;
+
+
+[...document.getElementsByTagName('input')].filter((element) => element.type === 'password').forEach((password) => password.classList.add('form-control'));

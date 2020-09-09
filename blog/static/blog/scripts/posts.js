@@ -1,5 +1,4 @@
 var commentInput = document.getElementById("id_comment_text");
-commentInput.classList.add("form-control");
 commentInput.style.width = "100%";
 commentInput.style.height = "8em";
 commentInput.placeholder = "Say something about this post";

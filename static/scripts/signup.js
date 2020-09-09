@@ -1,14 +1,3 @@
-// add bootstrap effects to input areas
-inputs = document.getElementsByTagName("input");
-acceptable = ['text', 'email', 'password']
-
-for(i in inputs){
-    if(acceptable.includes(inputs[i].type)){
-        inputs[i].classList.add("form-control");
-    }
-}
-
-
 // create a distraction free login page
 function signUpAnimation(){
     $(function(){
