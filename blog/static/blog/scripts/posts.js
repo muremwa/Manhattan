@@ -13,6 +13,7 @@ $(document).on('submit', '#comment-form', function(e){
     e.preventDefault();
     document.querySelector("#spin").classList.add("spinner");
     var commentUrl = this.attributes['data-comment'].value;
+    var trashIcon = this.attributes['data-trash-icon'].value;
     formData = new FormData(this);
 
     $.ajax({
@@ -24,7 +25,7 @@ $(document).on('submit', '#comment-form', function(e){
         processData: false,
         success: function(response){
             document.querySelector("#spin").classList.remove("spinner");
-            var imgId = newComment(response['user'], response['pk'], response['text'], response['time'], response['img']);
+            var imgId = newComment(response['user'], response['pk'], response['text'], response['time'], response['img'], response['del-url'], formData.get('csrfmiddlewaretoken'), trashIcon);
 
             // load image here instead of downloading from the backend
             if (imgId) {
@@ -46,7 +47,7 @@ $(document).on('submit', '#comment-form', function(e){
 
 var count = 0;
 
-function newComment (user, id, text, time, img) {
+function newComment (user, id, text, time, img, deleteUrl, deleteToken, trashImg) {
     // section to add new section
     var newCommentSection = document.getElementById("new-comments");
 
@@ -100,6 +101,30 @@ function newComment (user, id, text, time, img) {
         console.log("No image in the comment");
     }
 
+    // <div class="col-sm-3 text-center">
+    //     <span class="delete-comment" data-delete-url="{% url 'blog:delete_comment' comment.pk %}">
+    //         {% csrf_token %}
+    //         <img src="{% static 'svg/delete.svg' %}">
+    //     </span>
+    // </div>
+
+    // add delete comment section
+    var deleteCommentZone = document.createElement('div');
+    deleteCommentZone.classList = 'col-sm-3 text-center';
+    var deleteCommentSpan = document.createElement('span');
+    deleteCommentSpan.className = 'delete-comment';
+    deleteCommentSpan.dataset.deleteUrl = deleteUrl;
+    var hiddenToken = document.createElement('input');
+    hiddenToken.type = 'hidden';
+    hiddenToken.name = 'csrfmiddlewaretoken';
+    hiddenToken.value = deleteToken;
+    deleteCommentSpan.appendChild(hiddenToken)
+    var trashBin = document.createElement('img');
+    trashBin.src = trashImg;
+    deleteCommentSpan.appendChild(trashBin);
+    deleteCommentZone.appendChild(deleteCommentSpan);
+    commentDiv.appendChild(deleteCommentZone);
+
 
     // add sec to page
     if (count == 0) {
@@ -150,7 +175,7 @@ $(document).ready( function () {
 var commentSection;
 
 // Deleting comments
-$(document).on("click", "#delete-comment", function (e) {
+$(document).on("click", ".delete-comment", function (e) {
     var delete_url = this.dataset["deleteUrl"];
     var delete_token = this.children.csrfmiddlewaretoken.value;
     commentSection = this.parentElement.parentElement;

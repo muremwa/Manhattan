@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.http import JsonResponse, Http404
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView, Response
@@ -179,7 +179,8 @@ def comment(request, post_id):
             'text': new_comment.comment_text,
             'time': " ".join(time),
             'pk': new_comment.pk,
-            'img': bool(new_comment.comment_image)
+            'img': bool(new_comment.comment_image),
+            'del-url': reverse("blog:delete_comment", kwargs={"comment_id": str(new_comment.pk)})
         }
         return JsonResponse(response)
 
