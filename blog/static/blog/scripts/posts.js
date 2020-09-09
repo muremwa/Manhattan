@@ -97,8 +97,6 @@ function newComment (user, id, text, time, img, deleteUrl, deleteToken, trashImg
         imageComment.id = newImgId;
         imageCon.appendChild(imageComment);
         commentZone.appendChild(imageCon);
-    } else {
-        console.log("No image in the comment");
     }
 
     // add delete comment section
@@ -135,12 +133,8 @@ function newComment (user, id, text, time, img, deleteUrl, deleteToken, trashImg
     count++;
     
     // If no comments existed
-    try {
-        document.getElementById("no-comments").style.display = "none";
-    }
-    catch (err) {
-        console.log("You are not the first to comment");
-    }
+    var noComments = document.getElementById('no-comments');
+    noComments? noComments.style.display = 'none': void 0;
 
     // error message that existed needs to be removed if it exists
     document.getElementById("comment-error").style.display = "none";
@@ -187,10 +181,6 @@ $(document).on("click", ".delete-comment", function (e) {
                 commentSection.appendChild(message)
                 message.style.margin = 'auto';
             };
-        },
-        error: function (res_error) {
-            console.log("An error occured", res_error);
-        },
-        
+        }        
     });
 });

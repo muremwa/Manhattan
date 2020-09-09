@@ -32,16 +32,6 @@
 			{% endfor %}
 			<input type="submit" value="edit" class="btn btn-primary">
 		</form>
-
-		<script type="text/javascript">
-			var ins = document.getElementsByTagName('input');
-			for (let i=0; i<ins.length; i++){
-				if (ins[i].type == 'text' || ins[i].type == 'email') {
-					ins[i].classList.add('form-control');
-				}
-			}
-			document.getElementsByTagName("textarea")[0].classList.add('form-control');
-		</script>
 	</div>
 </div>
 

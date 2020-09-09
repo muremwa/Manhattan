@@ -112,12 +112,11 @@ function newComment (user, text, time) {
     count++;
     
     // If no comments existed
-    try {
-        document.getElementById("no-comments").style.display = "none";
+    var noComments = document.getElementById("no-comments");
+    if (noComments) {
+        noComments.style.display = "none";
     }
-    catch (err) {
-        console.log("You are not the first to comment");
-    }
+
 
     // error message that existed needs to be removed if it exists
     document.getElementById("comment-error").style.display = "none";
