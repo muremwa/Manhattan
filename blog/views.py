@@ -138,27 +138,27 @@ def comment(request, post_id):
     the_post = get_object_or_404(Post, pk=post_id)
 
     if request.method == "POST":
-        comment_text = request.POST['comment_text']
-        try:
-            comment_image = request.FILES['comment_image']
-        except KeyError:
-            comment_image = None
-        user = request.user.profile
+        comment_text = request.POST.get('comment_text')
 
         new_comment = Comment(
             comment_text=comment_text,
-            comment_image=comment_image,
             post=the_post,
-            user=user
+            user=request.user.profile
         )
+        
+        img_present = False
+        if 'comment_image' in request.FILES:
+            new_comment.comment_image = request.FILES.get('comment_image')
+            img_present = True
+        
         new_comment.save()
 
         response = {
-            'user': new_comment.user.user.username,
+            'user': request.user.username,
             'text': new_comment.comment_text,
             'time': new_comment.comment_time,
             'pk': new_comment.pk,
-            'img': bool(new_comment.comment_image)
+            'img': img_present
         }
         return JsonResponse(response)
 
