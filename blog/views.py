@@ -100,10 +100,10 @@ def tag(request, tag_name):
     for post_ in posts:
         tags = post_.tags.all()
         # add all rel tags
-        for the_tag in tags:
-            if the_tag != the_tag:
-                if the_tag not in rel_tags:
-                    rel_tags.append(the_tag)
+        for this_tag in tags:
+            if this_tag != the_tag:
+                if this_tag not in rel_tags:
+                    rel_tags.append(this_tag)
 
     return render(request, 'blog/tag.html', {
         'tag': the_tag,
