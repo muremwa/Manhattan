@@ -91,6 +91,11 @@ h5 {
 
 #comments {
     margin-top: 3em;
+    padding-bottom: 10px;
+}
+
+#no-comments {
+    margin-top: 10px;
 }
 
 .comment_image {
@@ -110,6 +115,10 @@ h5 {
     margin-left: 30px;
     color: crimson;
     overflow: hidden;
+}
+
+.trash-icon {
+    cursor: pointer;
 }
 
 /* Spinner */

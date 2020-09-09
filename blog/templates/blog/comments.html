@@ -45,7 +45,7 @@
                 <div class="col-sm-3 text-center">
                     <span class="delete-comment" data-delete-url="{% url 'blog:delete_comment' comment.pk %}">
                         {% csrf_token %}
-                        <img src="{% static 'svg/delete.svg' %}">
+                        <img class="trash-icon" src="{% static 'svg/delete.svg' %}">
                     </span>
                 </div>
                 {% endif %}
@@ -55,7 +55,7 @@
         {% endfor %}
     {% else %}
         {% include "blog/new-comment.html" %}
-        <div id="no-comments" style="padding-bottom: 10px;" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div id="no-comments" class="alert alert-warning alert-dismissible fade show" role="alert">
             <h4>Be the first to comment</h4>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

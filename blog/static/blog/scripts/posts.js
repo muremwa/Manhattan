@@ -110,6 +110,7 @@ function newComment (user, id, text, time, img, deleteUrl, deleteToken, trashImg
     hiddenToken.value = deleteToken;
     deleteCommentSpan.appendChild(hiddenToken)
     var trashBin = document.createElement('img');
+    trashBin.className = "trash-icon";
     trashBin.src = trashImg;
     deleteCommentSpan.appendChild(trashBin);
     deleteCommentZone.appendChild(deleteCommentSpan);
