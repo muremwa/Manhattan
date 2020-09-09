@@ -179,6 +179,7 @@ def comment(request, post_id):
             'text': new_comment.comment_text,
             'time': " ".join(time),
             'pk': new_comment.pk,
+            'img': bool(new_comment.comment_image)
         }
         return JsonResponse(response)
 

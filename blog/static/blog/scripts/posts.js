@@ -87,7 +87,7 @@ function newComment (user, id, text, time, img) {
 
     // Add an image if one was present
     var newImgId = null;
-    if (img.img){
+    if (img){
         var imageCon = document.createElement("div");
         imageCon.className = "comment-image-con";
         var imageComment = document.createElement("img");
