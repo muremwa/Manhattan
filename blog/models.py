@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -101,6 +103,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return "Comment by {} on {}".format(self.user, self.post)
+
+    @property
+    def comment_time(self):
+        time = self.time + timedelta(hours=3)
+        return time.strftime("%b %d, %Y, %H:%M %p")
 
     def delete(self, *args, **kwargs):
         self.comment_image.delete()

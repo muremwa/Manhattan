@@ -177,7 +177,7 @@ def comment(request, post_id):
         response = {
             'user': new_comment.user.user.username,
             'text': new_comment.comment_text,
-            'time': " ".join(time),
+            'time': new_comment.comment_time,
             'pk': new_comment.pk,
             'img': bool(new_comment.comment_image)
         }
