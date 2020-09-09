@@ -24,7 +24,15 @@ $(document).on('submit', '#comment-form', function(e){
         processData: false,
         success: function(response){
             document.querySelector("#spin").classList.remove("spinner");
-            newComment(response['user'], response['pk'], response['text'], response['time'], response['img']);
+            var imgId = newComment(response['user'], response['pk'], response['text'], response['time'], response['img']);
+
+            // load image here instead of downloading from the backend
+            if (imgId) {
+                var reader = new FileReader();
+                reader.onload = (event) => document.getElementById(imgId).src = event.target.result;
+                reader.readAsDataURL(document.getElementById('id_comment_image').files[0]);
+            };
+
             document.querySelector("#id_comment_text").value = "";
             document.querySelector("#id_comment_image").value = "";
         },
@@ -48,7 +56,7 @@ function newComment (user, id, text, time, img) {
     commentDiv.id = count;            // add an id
     commentDiv.style.display = "none"; // for animation
     
-    // image section
+    // user image section
     var imageDiv = document.createElement("div");
     imageDiv.className = "col-sm-1 user-img";       // size
     var imgSection = document.createElement("img");
@@ -78,14 +86,14 @@ function newComment (user, id, text, time, img) {
 
 
     // Add an image if one was present
+    var newImgId = null;
     if (img.img){
-        var reader = new FileReader();
         var imageCon = document.createElement("div");
         imageCon.className = "comment-image-con";
         var imageComment = document.createElement("img");
-        imageComment.src = img.img_url;
         imageComment.className = "comment-image";
-        imageComment.id = "comment-image-" + id;
+        newImgId = "comment-image-" + id;
+        imageComment.id = newImgId;
         imageCon.appendChild(imageComment);
         commentZone.appendChild(imageCon);
     } else {
@@ -118,6 +126,8 @@ function newComment (user, id, text, time, img) {
 
     // error message that existed needs to be removed if it exists
     document.getElementById("comment-error").style.display = "none";
+
+    return newImgId;
 }
 
 
